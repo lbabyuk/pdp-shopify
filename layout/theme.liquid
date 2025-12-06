@@ -7,12 +7,6 @@
     <meta name="theme-color" content="">
     <link rel="canonical" href="{{ canonical_url }}">
 
-    {% render 'css-variables' %}
-
-    {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
-      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
-    {%- endunless -%}
-
     <title>
       {{ page_title }}
       {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
@@ -25,19 +19,22 @@
     {% endif %}
     {% render 'meta-tags' %}
 
+    {{ content_for_header }}
+
+    {% render 'css-variables' %}
+
     {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
     {{ 'tailwind.output.css' | asset_url | stylesheet_tag }}
-    {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }} 
-
-    {{ content_for_header }}
+    {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
   </head>
 
   <body>
     {% sections 'header-group' %}
-
-    {{ content_for_layout }}
+    <main id="MainContent" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
 
     {% sections 'footer-group' %}
-    <script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script> 
+    <script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
   </body>
 </html>

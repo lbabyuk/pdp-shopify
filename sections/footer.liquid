@@ -1,41 +1,103 @@
-<footer>
-  <div class="footer__copyright">
-    &copy;
-    {{ 'now' | date: '%Y' }}
-    {{ shop.name | link_to: routes.root_url }}, {{ powered_by_link }}
-  </div>
+<footer class="footer full-width">
+  <div class="footer__container flex flex-col gap-12 pt-15 pb-6 px-4 md:pt-15 md:px-15">
+    <div class="footer__links hidden md:flex justify-between ">
+      <ul class="footer__links--list flex flex-col gap-4">
+        <p>Resources</p>
+        <div class="flex flex-col gap-3 text-sm">
+          <li><a href="#">Find a Store</a></li>
+          <li><a href="#">Nike Journal</a></li>
+          <li><a href="#">Become a Member</a></li>
+          <li><a href="#">Feedback</a></li>
+          <li><a href="#">Promo Codes</a></li>
+        </div>
+      </ul>
+      <ul class="footer__links--list flex flex-col gap-4">
+        <p>Help</p>
+        <div class="flex flex-col gap-3 text-sm">
+          <li><a href="#">Get Help</a></li>
+          <li><a href="#">Order Status</a></li>
+          <li><a href="#">Shipping and Delivery</a></li>
+          <li><a href="#">Returns</a></li>
+          <li><a href="#">Payment Options</a></li>
+        </div>
+      </ul>
+      <ul class="footer__links--list flex flex-col gap-4">
+        <p>Company</p>
+        <div class="flex flex-col gap-3 text-sm">
+          <li><a href="#">About Nike</a></li>
+          <li><a href="#">News</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Investors</a></li>
+          <li><a href="#">Sustainability</a></li>
+        </div>
+      </ul>
 
-  <div class="footer__links">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
-  </div>
+      <ul class="footer__links--list flex flex-col gap-4">
+        <p>Menu</p>
+        <div class="flex flex-col gap-3 text-sm">
+          <li><a href="#">New & Featured</a></li>
+          <li><a href="#">Men</a></li>
+          <li><a href="#">Women</a></li>
+          <li><a href="#">Kids</a></li>
+        </div>
+      </ul>
+    </div>
 
-  <div class="footer__payment">
-    {% if section.settings.show_payment_icons %}
-      {% for type in shop.enabled_payment_types %}
-        {{ type | payment_type_svg_tag }}
-      {% endfor %}
-    {% endif %}
+    <div class="footer__links md:hidden flex flex-col justify-between">
+      <details class="footer__links--list flex flex-col py-4">
+        <summary>Resources</summary>
+        <ul class="flex flex-col gap-3 text-sm pt-4">
+          <li><a href="#">Find a Store</a></li>
+          <li><a href="#">Nike Journal</a></li>
+          <li><a href="#">Become a Member</a></li>
+          <li><a href="#">Feedback</a></li>
+          <li><a href="#">Promo Codes</a></li>
+        </ul>
+      </details>
+      <details class="footer__links--list flex flex-col py-4">
+        <summary>Help</summary>
+        <ul class="flex flex-col gap-3 text-sm pt-4">
+          <li><a href="#">Get Help</a></li>
+          <li><a href="#">Order Status</a></li>
+          <li><a href="#">Shipping and Delivery</a></li>
+          <li><a href="#">Returns</a></li>
+          <li><a href="#">Payment Options</a></li>
+        </ul>
+      </details>
+      <details class="footer__links--list flex flex-col py-4">
+        <summary>Company</summary>
+        <ul class="flex flex-col gap-3 text-sm pt-4">
+          <li><a href="#">About Nike</a></li>
+          <li><a href="#">News</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Investors</a></li>
+          <li><a href="#">Sustainability</a></li>
+        </ul>
+      </details>
+
+      <details class="footer__links--list flex flex-col py-4">
+        <summary>Menu</summary>
+        <ul class="flex flex-col gap-3 text-sm pt-4">
+          <li><a href="#">New & Featured</a></li>
+          <li><a href="#">Men</a></li>
+          <li><a href="#">Women</a></li>
+          <li><a href="#">Kids</a></li>
+        </ul>
+      </details>
+    </div>
+    <div class="footer__info">
+      <ul class="footer__list flex flex-col md:flex-row gap-3 md:gap-8 text-sm">
+        <li>
+          <a class="footer__list--text" href="#">&copy; {{ 'now' | date: '%Y' }} Stellar Soft</a>
+        </li>
+        <li><a class="footer__list--link" href="#" aria-label="Terms of Use">Terms of Use</a></li>
+        <li>
+          <a class="footer__list--link" href="#" aria-label="Privacy & Cookie Policy">Privacy & Cookie Policy</a>
+        </li>
+      </ul>
+    </div>
   </div>
 </footer>
-
-{% stylesheet %}
-  footer {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 2rem;
-  }
-  footer a {
-    text-decoration: none;
-    color: var(--color-foreground);
-  }
-  footer .footer__links,
-  footer .footer__payment {
-    display: flex;
-    gap: 1rem;
-  }
-{% endstylesheet %}
 
 {% schema %}
 {
