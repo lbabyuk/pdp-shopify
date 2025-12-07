@@ -24,14 +24,14 @@
         "heading_JQAMxA": {
           "type": "heading",
           "settings": {
-            "heading": "Image banner",
-            "heading_size": "h1"
+            "heading": "Step Into Next-Level Comfort",
+            "heading_size": "h2"
           }
         },
         "text_XnHwpe": {
           "type": "text",
           "settings": {
-            "text": "Give customers details about the banner image or content on the template.",
+            "text": "Experience the perfect mix of style, support, and all-day cushioning with Nike Air Max Plus.",
             "text_style": "body"
           }
         },
@@ -50,7 +50,9 @@
         "button_HtrDCM"
       ],
       "name": "t:sections.image_banner.presets.name",
-      "settings": {}
+      "settings": {
+        "image": "shopify://shop_images/cta_hero_image.webp"
+      }
     }
   },
   "order": [
