@@ -48,10 +48,19 @@
       "settings": {
         "image": "shopify://shop_images/cta_hero_image.webp"
       }
+    },
+    "collections_HebXDg": {
+      "type": "collections",
+      "name": "t:general.collections_grid",
+      "settings": {
+        "grid_item_width": "collections--full",
+        "grid_gap": 10
+      }
     }
   },
   "order": [
     "main",
-    "image_banner_hfxXiK"
+    "image_banner_hfxXiK",
+    "collections_HebXDg"
   ]
 }
