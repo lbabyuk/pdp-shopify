@@ -268,8 +268,19 @@
           }
         }
       },
+
       "presets": {
         "name": "Image banner"
+      }
+    },
+    "recommended-products": {
+      "settings": {
+        "heading": {
+          "label": "Recommended products"
+        },
+        "paragraph": {
+          "default": "Recommended Products"
+        }
       }
     }
   }

@@ -1,0 +1,48 @@
+{% comment %}
+  Recommended (related) products slider snippet
+
+    Usage: {% render 'recommended-products-slider',
+          recommendations: recommendations,
+          heading: section.settings.heading,
+          section_id: section.id
+        %}
+{% endcomment %}
+
+{%- if recommendations.performed? and recommendations.products_count > 0 -%}
+  <h2 class="h2 text-center section-title pb-8 md:pb-12">{{ section.settings.heading }}</h2>
+  <div
+    class="swiper slider-products"
+    aria-roledescription="carousel"
+    aria-label="{{ section.settings.heading }}"
+    id="Slider-{{ section.id }}"
+  >
+    <div class="swiper-wrapper">
+      {%- for product in recommendations.products -%}
+        <div class="swiper-slide">
+          {% render 'product-card', product: product %}
+        </div>
+      {%- endfor -%}
+    </div>
+    <button
+      type="button"
+      aria-label="{{ 'slider.slideshow.previous_slideshow' | t }}"
+      aria-controls="Slider-{{ section.id }}"
+      class="swiper-button-prev rotate-180 absolute top-1/2 -translate-y-1/2 -left-5 w-11 h-11 z-50 items-center justify-center rounded-full border shadow-sm"
+    >
+      {{ 'custom-icon-arrow.svg' | inline_asset_content }}
+    </button>
+
+    <button
+      type="button"
+      name="next"
+      aria-label="{{ 'slider.slideshow.next_slideshow' | t }}"
+      aria-controls="Slider-{{ section.id }}"
+      class="swiper-button-next absolute top-1/2 -translate-y-1/2 -right-5 w-11 h-11 z-50  items-center justify-center rounded-full border shadow-sm"
+    >
+      {{ 'custom-icon-arrow.svg' | inline_asset_content }}
+    </button>
+  </div>
+
+{%- else -%}
+  <h2 class="empty-product-message">{{ 'products.product.no_recommended_products' | t }}</h2>
+{%- endif -%}

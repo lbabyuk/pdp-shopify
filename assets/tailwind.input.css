@@ -176,8 +176,49 @@
   }
 
   .reviews__reviewer--city,
-  .avatar {
+  .avatar,
+  .product-price {
     color: var(--color-gray);
+  }
+
+  .sr-only-focusable {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .thumbSwiper .swiper-slide {
+    width: 8.8rem !important;
+    height: 8.8rem !important;
+  }
+
+  .swiper-slide-thumb-active::after {
+    content: "";
+    background-color: var(--active-bg);
+    @apply absolute inset-0 pointer-events-none rounded-xl;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: none !important;
+    background-color: var(--color-white);
+    border-color: var(--color-light-gray);
+  }
+
+  .swiper-button-next svg,
+  .swiper-button-prev svg {
+    width: 16px !important;
+    height: 16px !important;
+  }
+
+  .slider-grid {
+    max-width: 1320px;
   }
 
   @media (min-width: 768px) {
@@ -199,6 +240,13 @@
     .h2 {
       font-size: var(--h2-desktop);
       line-height: var(--h2-desktop-line);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .swiper-button-next,
+    .swiper-button-prev {
+      display: none !important;
     }
   }
 }

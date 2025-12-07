@@ -44,20 +44,12 @@
           }
         }
       },
-      "block_order": [
-        "heading_JQAMxA",
-        "text_XnHwpe",
-        "button_HtrDCM"
-      ],
+      "block_order": ["heading_JQAMxA", "text_XnHwpe", "button_HtrDCM"],
       "name": "t:sections.image_banner.presets.name",
       "settings": {
         "image": "shopify://shop_images/cta_hero_image.webp"
       }
     }
   },
-  "order": [
-    "main",
-    "reviews_EUq9Gn",
-    "image_banner_Eq6BHr"
-  ]
+  "order": ["main", "reviews_EUq9Gn", "image_banner_Eq6BHr"]
 }

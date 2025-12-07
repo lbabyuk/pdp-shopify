@@ -67,5 +67,24 @@
     "empty_city": "Unknown",
     "empty_review": "Amazing product, completely met my expectations!",
     "title": "Reviews"
+  },
+  "products": {
+    "product": { "no_recommended_products": "No recommended products" }
+  },
+  "slider": {
+    "slideshow": {
+      "previous_slideshow": "previous slideshow",
+      "next_slideshow": "next slideshow"
+    }
+  },
+  "recommended-products": {
+    "settings": {
+      "heading": {
+        "label": "Recommended products"
+      },
+      "paragraph": {
+        "default": "Recommended Products"
+      }
+    }
   }
 }
