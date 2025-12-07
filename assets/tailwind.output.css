@@ -6,8 +6,11 @@
     --font-sans: "Poppins", sans-serif;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
+    --color-indigo-50: oklch(96.2% 0.018 272.314);
     --color-indigo-500: oklch(58.5% 0.233 277.117);
     --color-indigo-600: oklch(51.1% 0.262 276.966);
+    --color-gray-600: oklch(44.6% 0.03 256.802);
+    --color-gray-900: oklch(21% 0.034 264.665);
     --color-black: #000;
     --color-white: #ffffff;
     --spacing: 0.25rem;
@@ -269,6 +272,12 @@
       max-width: 96rem;
     }
   }
+  .mx-auto {
+    margin-inline: auto;
+  }
+  .ms-auto {
+    margin-inline-start: auto;
+  }
   .block {
     display: block;
   }
@@ -335,14 +344,8 @@
   .w-full {
     width: 100%;
   }
-  .max-w-\[1320px\] {
-    max-width: 1320px;
-  }
-  .flex-shrink {
-    flex-shrink: 1;
-  }
-  .shrink {
-    flex-shrink: 1;
+  .flex-1 {
+    flex: 1;
   }
   .border-collapse {
     border-collapse: collapse;
@@ -381,6 +384,9 @@
   }
   .grid-cols-1 {
     grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .flex-col {
     flex-direction: column;
@@ -458,15 +464,6 @@
   .object-center {
     object-position: center;
   }
-  .p-2 {
-    padding: calc(var(--spacing) * 2);
-  }
-  .p-2\.5 {
-    padding: calc(var(--spacing) * 2.5);
-  }
-  .p-3 {
-    padding: calc(var(--spacing) * 3);
-  }
   .p-6 {
     padding: calc(var(--spacing) * 6);
   }
@@ -478,6 +475,12 @@
   }
   .py-15 {
     padding-block: calc(var(--spacing) * 15);
+  }
+  .pt-3 {
+    padding-top: calc(var(--spacing) * 3);
+  }
+  .pt-3\.5 {
+    padding-top: calc(var(--spacing) * 3.5);
   }
   .pt-4 {
     padding-top: calc(var(--spacing) * 4);
@@ -509,6 +512,12 @@
     --tw-font-weight: var(--font-weight-semibold);
     font-weight: var(--font-weight-semibold);
   }
+  .text-gray {
+    color: var(--color-gray);
+  }
+  .text-gray-600 {
+    color: var(--color-gray-600);
+  }
   .text-indigo-600 {
     color: var(--color-indigo-600);
   }
@@ -517,6 +526,18 @@
   }
   .underline {
     text-decoration-line: underline;
+  }
+  .decoration-black {
+    text-decoration-color: var(--color-black);
+  }
+  .decoration-gray {
+    text-decoration-color: var(--color-gray);
+  }
+  .decoration-gray-900 {
+    text-decoration-color: var(--color-gray-900);
+  }
+  .decoration-indigo-50 {
+    text-decoration-color: var(--color-indigo-50);
   }
   .underline-offset-4 {
     text-underline-offset: 4px;
@@ -590,6 +611,13 @@
     &:hover {
       @media (hover: hover) {
         text-decoration-line: underline;
+      }
+    }
+  }
+  .hover\:underline-offset-1 {
+    &:hover {
+      @media (hover: hover) {
+        text-underline-offset: 1px;
       }
     }
   }

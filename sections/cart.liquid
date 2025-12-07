@@ -1,33 +1,34 @@
 {% comment %}
   This section is used in the cart template to render /cart page with an
   overview of the items in customer's cart.
-
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/cart
 {% endcomment %}
+<div class="collection__container">
+  <div class="collection__container--content flex flex-col py-15 md:py-20 gap-8 md:gap-12 px-4 md:px-15">
+    <h1 class="h1">{{ 'cart.title' | t }}</h1>
 
-<h1>{{ 'cart.title' | t }}</h1>
+    <form action="{{ routes.cart_url }}" method="post">
+      <table>
+        {% for item in cart.items %}
+          <tr>
+            <td>
+              {% render 'image', image: item.image, url: item.url %}
+            </td>
+            <td>
+              <p>{{ item.product.title }}</p>
+              {{ 'cart.remove' | t | link_to: item.url_to_remove }}
+            </td>
+            <td>
+              <input type="text" name="updates[]" value="{{ item.quantity }}">
+              <input type="submit" value="{{ 'cart.update' | t }}">
+            </td>
+          </tr>
+        {% endfor %}
+      </table>
 
-<form action="{{ routes.cart_url }}" method="post">
-  <table>
-    {% for item in cart.items %}
-      <tr>
-        <td>
-          {% render 'image', image: item.image, url: item.url %}
-        </td>
-        <td>
-          <p>{{ item.product.title }}</p>
-          {{ 'cart.remove' | t | link_to: item.url_to_remove }}
-        </td>
-        <td>
-          <input type="text" name="updates[]" value="{{ item.quantity }}">
-          <input type="submit" value="{{ 'cart.update' | t }}">
-        </td>
-      </tr>
-    {% endfor %}
-  </table>
-
-  <input type="submit" name="checkout" value="{{ 'cart.checkout' | t }}">
-</form>
+      <input type="submit" name="checkout" value="{{ 'cart.checkout' | t }}">
+    </form>
+  </div>
+</div>
 
 {% schema %}
 {
