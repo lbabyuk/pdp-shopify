@@ -1,0 +1,41 @@
+{% assign accordion_items = section.settings.accordion_items %}
+
+{% render 'accordion', accordion_items: accordion_items %}
+
+{% schema %}
+{
+  "name": "Custom Accordion",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "blocks": [
+    {
+      "type": "collapsible_row",
+      "name": "Accordion Item",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "richtext", "id": "content", "label": "Content" }
+      ]
+    }
+  ],
+
+  "presets": [
+    {
+      "name": "Custom Accordion",
+      "blocks": [
+        {
+          "type": "collapsible_row"
+        },
+        {
+          "type": "collapsible_row"
+        },
+        {
+          "type": "collapsible_row"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

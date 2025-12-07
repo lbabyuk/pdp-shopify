@@ -35,6 +35,7 @@
     </select>
 
     <input type="text" name="quantity" min="1" value="1">
+    {% render 'accordion' %}
 
     <input type="submit" value="Add to cart">
     {{ form | payment_button }}

@@ -61,5 +61,11 @@
   "buttons": {
     "shop_now": "Shop Now",
     "add_to_bag": "Add To Bag"
+  },
+  "reviews": {
+    "empty_name": "Anonymous",
+    "empty_city": "Unknown",
+    "empty_review": "Amazing product, completely met my expectations!",
+    "title": "Reviews"
   }
 }

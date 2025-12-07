@@ -14,10 +14,9 @@
       {{ 'menu-icon.svg' | inline_asset_content }}
     </button>
     <nav class="header__menu md:flex gap-8 hidden text-base" aria-label="Primary navigation">
-      <a href="#">New & Featured</a>
-      <a href="#">Men</a>
-      <a href="#">Women</a>
-      <a href="#">Kids</a>
+      {% for link in linklists['main-menu'].links %}
+        <a href="{{link.url}}" class="{% if link.active == true %}text-indigo-600{% endif %}">{{ link.title }}</a>
+      {% endfor %}
     </nav>
     <div class="header__cart relative" aria-label="View cart">
       <a href="{{ routes.cart_url }}" class="relative transition-colors duration-300 group  overflow-visible!">
@@ -31,7 +30,6 @@
             "
           >
             {{- cart.item_count -}}
-            11
           </sup>
         {% endif %}
 

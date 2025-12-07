@@ -71,13 +71,15 @@
   }
 
   .header,
-  .footer {
+  .footer,
+  .reviews {
     display: grid;
     grid-template-columns: var(--content-grid);
   }
 
   .header__container,
-  .footer__container {
+  .footer__container,
+  .reviews__container {
     grid-column: 2;
   }
 
@@ -167,6 +169,15 @@
 
   .content__wrapper {
     grid-template-columns: var(--content-grid);
+  }
+
+  .reviews__cards--card {
+    border: 1px solid var(--color-light-gray);
+  }
+
+  .reviews__reviewer--city,
+  .avatar {
+    color: var(--color-gray);
   }
 
   @media (min-width: 768px) {
