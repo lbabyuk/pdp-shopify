@@ -17,10 +17,45 @@
       "type": "reviews",
       "name": "Reviews",
       "settings": {}
+    },
+    "image_banner_Eq6BHr": {
+      "type": "image-banner",
+      "blocks": {
+        "heading_JQAMxA": {
+          "type": "heading",
+          "settings": {
+            "heading": "Image banner",
+            "heading_size": "h1"
+          }
+        },
+        "text_XnHwpe": {
+          "type": "text",
+          "settings": {
+            "text": "Give customers details about the banner image or content on the template.",
+            "text_style": "body"
+          }
+        },
+        "button_HtrDCM": {
+          "type": "button",
+          "settings": {
+            "button_label": "Shop Now",
+            "button_link": "",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_JQAMxA",
+        "text_XnHwpe",
+        "button_HtrDCM"
+      ],
+      "name": "t:sections.image_banner.presets.name",
+      "settings": {}
     }
   },
   "order": [
     "main",
-    "reviews_EUq9Gn"
+    "reviews_EUq9Gn",
+    "image_banner_Eq6BHr"
   ]
 }
