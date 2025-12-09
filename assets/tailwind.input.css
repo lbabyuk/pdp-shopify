@@ -221,7 +221,9 @@
   .product__accordion li,
   .product__accordion .text,
   .product__description,
-  .compare_at_price {
+  .compare_at_price,
+  .breadcrumbs__link,
+  .product__text {
     color: var(--color-gray);
   }
 
@@ -244,6 +246,13 @@
     -moz-border-radius: var(--border-radius);
     -ms-border-radius: var(--border-radius);
     -o-border-radius: var(--border-radius);
+  }
+
+  .breadcrumbs__item:not(:last-child):after {
+    content: "/";
+    width: 7px;
+    height: 20px;
+    color: var(--color-gray);
   }
 
   .product_image {

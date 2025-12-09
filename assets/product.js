@@ -108,6 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const thumbsSwiper = new Swiper(".thumbSwiper", {
     spaceBetween: 16,
+    slidesPerView: "auto",
     loop: false,
     freeMode: true,
     watchSlidesProgress: true,
@@ -116,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
       0: { spaceBetween: 16, direction: "horizontal" },
       768: { spaceBetween: 16, direction: "horizontal" },
       1024: { spaceBetween: 16, direction: "horizontal" },
-      1280: { spaceBetween: 24, direction: "vertical", slidesPerView: "5" }
+      1280: { spaceBetween: 24, direction: "vertical", slidesPerView: 5 }
     }
   });
 

@@ -73,13 +73,24 @@
     "product": {
       "no_recommended_products": "No recommended products",
       "on_sale": "On sale",
+      "highly_rated": "Highly Rated",
       "regular_price": "Regular price",
+      "currant_price": "Currant price",
       "add_to_bag": "Add To Bag",
       "sold_out": "Sold Out",
       "select_color": "Select color",
       "free_shipping": "Free U.S. Shipping Over $150",
-      "safe_checkout":"Safe & Secure Checkout",
-      "after_pay_checkout": "Afterpay available at checkout"
+      "safe_checkout": "Safe & Secure Checkout",
+      "after_pay_checkout": "Afterpay available at checkout",
+      "media_carousel": "Media carousel",
+      "media_gallery_viewer": "Media gallery",
+      "media_main_images": "Main images",
+      "media_thumbnail_images": "Thumb images",
+      "product_description": "Description",
+      "size_and_fit_title": "SIZE & FIT",
+      "product_notes_title": "PRODUCT NOTES",
+      "delivery_and_returns_title": "DELIVERY & RETURNS",
+      "sku": "SKU"
     }
   },
   "slider": {

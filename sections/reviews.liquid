@@ -11,10 +11,9 @@
   <div class="reviews__container flex flex-col py-15 md:py-20 gap-8 md:gap-12 px-4 md:px-15">
     <h2 class="h2 reviews__title text-center">{{ 'reviews.title' | t }}</h2>
     <div class="reviews__cards grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
-      {%- for review in reviews -%}
+      {%- for review in reviews limit: 3 -%}
         <div class="reviews__cards--card p-6 rounded-lg flex flex-col gap-6 justify-between">
           {% render 'stars', stars: review.stars, label: review.stars | append: ' out of 5 stars' %}
-
           <p class="reviews__text body">
             {%- if review.customer_image != blank -%}
               {{ review.review }}
@@ -44,20 +43,20 @@
               </div>
             {%- endif -%}
             <div class="flex flex-col justify-center gap-1">
-              <p class="reviews__reviewer--name body">
+              <strong class="reviews__reviewer--name body font-normal">
                 {%- if review.customer_name != blank -%}
                   {{ review.customer_name | escape }}
                 {%- else -%}
                   {{- 'reviews.empty_name' | t -}}
                 {%- endif -%}
-              </p>
-              <p class="reviews__reviewer--city body">
+              </strong>
+              <span class="reviews__reviewer--city body">
                 {%- if review.city != blank -%}
                   {{ review.city | escape }}
                 {%- else -%}
                   {{ 'reviews.empty_city' | t }}
                 {%- endif -%}
-              </p>
+              </span>
             </div>
           </div>
         </div>

@@ -9,15 +9,15 @@
     <form action="{{ routes.cart_url }}" method="post">
       <table>
         {% for item in cart.items %}
-          <tr>
+          <tr class="grid grid-flow-row place-items-center pb-2">
             <td>
               {% render 'image', image: item.image, url: item.url %}
             </td>
             <td>
               <p>{{ item.product.title }}</p>
-              {{ 'cart.remove' | t | link_to: item.url_to_remove }}
             </td>
             <td>
+              {{ 'cart.remove' | t | link_to: item.url_to_remove }}
               <input type="text" name="updates[]" value="{{ item.quantity }}">
               <input type="submit" value="{{ 'cart.update' | t }}">
             </td>
