@@ -6,18 +6,15 @@
 </script>
 
 {% assign reviews = product.metafields.custom.reviews_json.value %}
-<section class="reviews full-width" id="Reviews-{{ section.id }}">
+
+<section class="reviews" id="Reviews-{{ section.id }}">
   <div class="reviews__container flex flex-col py-15 md:py-20 gap-8 md:gap-12 px-4 md:px-15">
     <h2 class="h2 reviews__title text-center">{{ 'reviews.title' | t }}</h2>
-    <div class="reviews__cards grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
+    <div class="reviews__cards grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
       {%- for review in reviews -%}
         <div class="reviews__cards--card p-6 rounded-lg flex flex-col gap-6 justify-between">
-          <div class="reviews__stars flex gap-0.5" role="img" aria-label="{{ review.stars }} out of 5 star">
-            {%- for star in (1..review.stars) -%}
-              {{- 'star-icon.svg' | inline_asset_content -}}
-            {% endfor %}
-            <span class="sr-only">{{ review.stars }} out of 5 stars</span>
-          </div>
+          {% render 'stars', stars: review.stars, label: review.stars | append: ' out of 5 stars' %}
+
           <p class="reviews__text body">
             {%- if review.customer_image != blank -%}
               {{ review.review }}

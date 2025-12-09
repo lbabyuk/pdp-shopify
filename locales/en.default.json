@@ -66,10 +66,21 @@
     "empty_name": "Anonymous",
     "empty_city": "Unknown",
     "empty_review": "Amazing product, completely met my expectations!",
-    "title": "Reviews"
+    "title": "Reviews",
+    "out_of_stars": "{{ count }} out of 5 stars"
   },
   "products": {
-    "product": { "no_recommended_products": "No recommended products" }
+    "product": {
+      "no_recommended_products": "No recommended products",
+      "on_sale": "On sale",
+      "regular_price": "Regular price",
+      "add_to_bag": "Add To Bag",
+      "sold_out": "Sold Out",
+      "select_color": "Select color",
+      "free_shipping": "Free U.S. Shipping Over $150",
+      "safe_checkout":"Safe & Secure Checkout",
+      "after_pay_checkout": "Afterpay available at checkout"
+    }
   },
   "slider": {
     "slideshow": {

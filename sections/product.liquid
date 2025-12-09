@@ -1,23 +1,536 @@
 {% comment %}
   This section is used in the product template to render product page with
   media, content, and add-to-cart form.
-
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/product
 {% endcomment %}
 
-<div class="product-images">
-  {% for image in product.images %}
-    {% render 'image', class: 'product-image', image: image %}
-  {% endfor %}
-</div>
+{% assign product_notes = product.metafields.custom.product_notes %}
+{% assign returns_policy = product.metafields.custom.returns_policy %}
+{% assign size_fit = product.metafields.custom.size_fit_new %}
 
-<div class="product-info">
-  <h1>{{ product.title }}</h1>
-  <p>{{ product.price | money }}</p>
-  <p>{{ product.description }}</p>
-</div>
+{% assign reviews = product.metafields.custom.reviews_json.value %}
+{% assign review_count = reviews.size %}
+{% assign total_stars = 0 %}
 
-<div class="product-form">
+{% for review in reviews %}
+  {% assign total_stars = total_stars | plus: review.stars %}
+{% endfor %}
+
+{% if review_count > 0 %}
+  {% assign average_stars = total_stars | divided_by: review_count %}
+{% else %}
+  {% assign average_stars = 0 %}
+{% endif %}
+
+<section
+  class="product"
+  id="Product-{{ section.id }}"
+  section-{{ section.id }}
+  data-section="{{ section.id }}"
+  data-url="{{ product.url }}"
+  data-section-id="{{ section.id }}"
+>
+  <div class="product__container grid">
+    <div class="grid grid-cols-1 md:grid-cols-2 pt-15 px-4 md:px-15 gap-6 lg:gap-15 justify-center">
+      <div class="product__slider--container w-full">
+        <div class="product_image gap-4 xl:gap-6">
+          <div
+            class="swiper thumbSwiper w-full"
+            role="group"
+          >
+            <div class="swiper-wrapper">
+              {%- for media in product.media -%}
+                <div
+                  class="swiper-slide cursor-pointer focus-visible"
+                  data-media-id="{{ media.id }}"
+                  aria-label="Show image {{ forloop.index }} of {{ product.media.size }}"
+                  role="button"
+                  tabindex="0"
+                  data-media-color="{{ media.alt | downcase }}"
+                >
+                  {%- if media != blank -%}
+                    {%- assign alt_text = media.preview_image.alt | default: product.title -%}
+                    {{-
+                      media
+                      | image_url: width: 88, height: 88
+                      | image_tag:
+                        loading: 'lazy',
+                        width: 88,
+                        height: 88,
+                        alt: alt_text,
+                        fetchpriority: 'high',
+                        class: 'w-full h-auto object-cover'
+                    -}}
+                  {%- else -%}
+                    {{- 'product-2' | placeholder_svg_tag: 'placeholder-img' -}}
+                  {%- endif -%}
+                </div>
+              {%- endfor -%}
+            </div>
+          </div>
+          <div
+            class="swiper mainSwiper w-full mb-4 sm:mb-4 lg:mb-4"
+            role="region"
+            aria-roledescription="{{ 'products.product.media.carousel'}}"
+          >
+            <div class="swiper-wrapper">
+              {%- for media in product.media -%}
+                <div
+                  class="image-container swiper-slide flex relative"
+                  role="group"
+                  aria-label="Image {{ forloop.index }} of {{ product.media.size }}"
+                  data-media-id="{{ media.id }}"
+                  data-media-color="{{ media.alt | downcase }}"
+                >
+                  {%- if media != blank -%}
+                    {%- assign product_price = product.selected_or_first_available_variant -%}
+                    {%- if product_price.price < product_price.compare_at_price -%}
+                      <div class="absolute inline-flex items-center top-6 left-6 bg-white p-2 rounded-sm">
+                        {{ 'star-icon.svg' | inline_asset_content }}
+                        <span class="subtitle">
+                          {{ 'products.product.on_sale' | t | escape }}
+                        </span>
+                      </div>
+                    {%- endif -%}
+                    {%- assign alt_text = media.preview_image.alt | default: product.title -%}
+                    {{-
+                      media
+                      | image_url: width: 536, height: 536
+                      | image_tag:
+                        loading: 'eager',
+                        width: 536,
+                        height: 536,
+                        alt: alt_text,
+                        sizes: '(max-width: 768px) 100vw, 50vw',
+                        fetchpriority: 'high',
+                        class: 'w-full h-full object-cover'
+                    -}}
+                  {%- else -%}
+                    {{- 'product-2' | placeholder_svg_tag: 'placeholder-img' -}}
+                  {%- endif -%}
+                </div>
+              {%- endfor -%}
+            </div>
+            <div class="swiper-button-next hidden"></div>
+            <div class="swiper-button-prev hidden"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class=" product__info--container w-full flex flex-col gap-6">
+        <div class="product__info--heading flex flex-col gap-3">
+          <div class="flex flex-col gap-2">
+            {% comment %} product title  {% endcomment %}
+            {% if product.title != blank %}
+              <h2 class="product_title h2">{{ product.title | escape }}</h2>
+            {% else %}
+              <h1 class="product_title h2">{{ product.handle | capitalize }}</h1>
+            {% endif %}
+            {% comment %} product-average-rating  {% endcomment %}
+            <div class="product-average-rating flex items-center gap-2 mt-4">
+              {% render 'stars', stars: average_stars, label: 'Average rating' %}
+              <span class="subtitle" aria-hidden="true">{{ average_stars | times: 1.0 | round: 1 }}</span>
+            </div>
+          </div>
+          {% if product.description != blank %}
+            <div class="product__description subtitle">{{ product.description }}</div>
+          {% endif %}
+        </div>
+
+        {% comment %} product-average-rating  need to make snippet  {% endcomment %}
+        <div id="product_price" class="product_price price-{{ section.id }} flex gap-1.5" aria-live="polite">
+          {%- assign product_price = product.selected_or_first_available_variant -%}
+          {%- if product_price.compare_at_price > product_price.price -%}
+            <span
+              class="compare_at_price body line-through"
+              aria-label="{{ 'products.product.regular_price' | t }}"
+            >
+              {{ product_price.compare_at_price | money_with_currency }}
+              <span class="sr-only">{{ 'products.product.regular_price' | t | escape }}</span>
+            </span>
+            <span
+              class="sr-only"
+            >
+              {{ 'products.product.on_sale' | t | escape }}
+            </span>
+          {%- endif -%}
+          {% if product.price != blank %}
+            <span class="currant_price body" aria-label="Current price">
+              <span class="sr-only">Current price: </span>
+              {{- product_price.price | money_with_currency -}}
+            </span>
+          {% endif %}
+        </div>
+
+        {% comment %} color-size need to make snippet start  {% endcomment %}
+
+        {%- assign color_index = -1 -%}
+        {%- assign size_index = -1 -%}
+
+        {%- for option in product.options -%}
+          {%- assign option_normalized = option | downcase | strip -%}
+          {%- if option_normalized contains 'color'
+            or option_normalized contains 'colour'
+            or option_normalized contains 'колір'
+          -%}
+            {%- assign color_index = forloop.index0 -%}
+          {%- elsif option_normalized contains 'size'
+            or option_normalized contains 'shoe size'
+            or option_normalized contains 'розмір'
+          -%}
+            {%- assign size_index = forloop.index0 -%}
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- if color_index >= 0 -%}
+          {%- assign color_index_plus = color_index | plus: 1 -%}
+          {%- assign color_key = 'option' | append: color_index_plus -%}
+          {%- assign colors = product.variants | map: color_key | uniq -%}
+
+          <div class="product_option">
+            <label for="color-select" class="hidden sr-only">{{ 'products.product.select_color' | t }}</label>
+            <select id="color-select" name="color" class="hidden sr-only">
+              {%- for color in colors -%}
+                <option value="{{ color | escape }}">{{ color }}</option>
+              {%- endfor -%}
+            </select>
+            <div class="flex flex-wrap gap-2">
+              {%- for color in colors -%}
+                {%- assign variant = product.variants | where: color_key, color | first -%}
+                {%- if variant and variant.featured_image -%}
+                  {%- assign image_url = variant.featured_image | image_url: width: 88 -%}
+                {%- else -%}
+                  {%- assign image_url = product.featured_image | image_url: width: 88 -%}
+                {%- endif -%}
+
+                <label class="cursor-pointer color-label">
+                  <input
+                    type="radio"
+                    name="color"
+                    value="{{ color | escape }}"
+                    class="sr-only-focusable peer color-input"
+                    aria-label="color-input-{{ color}}"
+                    id="color-input-{{ color }}"
+                  >
+                  <span id="color-label-{{ forloop.index }}" class="sr-only">
+                    {{ color }}
+                  </span>
+
+                  {% if image_url != blank %}
+                    <span
+                      tabindex="0"
+                      class="color__option block w-22 h-22 peer-checked:ring bg-center bg-cover focus-visible"
+                      style="background-image:url({{ image_url }});"
+                      title="{{ color }}"
+                      role="presentation"
+                    ></span>
+                  {% else %}
+                    <span
+                      tabindex="0"
+                      class="block w-10 h-10 rounded-full ring-1 peer-checked:ring-1 focus-visible"
+                      style="background-color:{{ color | downcase }};"
+                      title="{{ color }}"
+                    ></span>
+                  {% endif %}
+                </label>
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endif -%}
+
+        {%- if size_index >= 0 -%}
+          {%- assign size_index_plus = size_index | plus: 1 -%}
+          {%- assign size_key = 'option' | append: size_index_plus -%}
+          {%- assign sizes = product.variants | map: size_key | uniq -%}
+          <div class="product_option">
+            <div class="product_option w-full flex flex-col gap-3">
+              <span class="subtitle"> {{ product.options[size_index] | default: 'Select Size:' }}:</span>
+              <div id="size-select" class="size-chips grid grid-cols-2 lg:grid-cols-3 gap-2">
+                {%- for size in sizes -%}
+                  {%- assign safe_size = size | remove: '(' | remove: ')' | replace: ' ', '-' -%}
+                  <label class="chip cursor-pointer size-label focus-visible">
+                    <input
+                      type="radio"
+                      name="size"
+                      value="{{ size | escape }}"
+                      class="sr-only-focusable peer size-input"
+                      aria-label="size-input-{{ safe_size }}"
+                      id="size-input-{{ safe_size }}"
+                    >
+                    <span
+                      tabindex="0"
+                      class="size-option block subtitle text-center peer-checked:ring p-4 focus-visible"
+                    >
+                      {{ size }}
+                    </span>
+                  </label>
+                {%- endfor -%}
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+
+        {% comment %} color-size need to make snippet end  {% endcomment %}
+
+        <div
+          id="variant-data"
+          aria-hidden="true"
+          data-color-index="{{ color_index }}"
+          data-size-index="{{ size_index }}"
+        >
+          {%- for variant in product.variants -%}
+            <span
+              data-id="{{ variant.id }}"
+              data-option1="{{ variant.option1 | escape }}"
+              data-option2="{{ variant.option2 | escape }}"
+              data-option3="{{ variant.option3 | escape }}"
+              data-media-id="{{ variant.featured_media.id }}"
+              data-available="{{ variant.available }}"
+            ></span>
+          {%- endfor -%}
+        </div>
+        {% comment %} product__form {% endcomment %}
+        <div class="product__form">
+          {%- form 'product', product, class: 'form', data-type: 'add-to-cart-form' -%}
+            <input
+              type="hidden"
+              name="id"
+              value="{{ product.selected_or_first_available_variant.id }}"
+              class="sr-only"
+              aria-hidden="true"
+            >
+
+            <input
+              type="hidden"
+              name="id"
+              id="selected-variant-id"
+              value="{{ product.selected_or_first_available_variant.id }}"
+              class="sr-only"
+              aria-hidden="true"
+            >
+            <button
+              type="button"
+              name="add"
+              class="
+                add-to-cart-button button--secondary cursor-pointer w-full
+                disabled:cursor-not-allowed transition-colors duration-300
+                focus-visible
+              "
+              {%- unless product.selected_or_first_available_variant.available -%}
+                disabled
+              {%- endunless -%}
+            >
+              <span aria-live="polite" aria-hidden="true">
+                {%- if product.selected_or_first_available_variant.available -%}
+                  {{ 'products.product.add_to_bag' | t | escape }}
+                {%- else -%}
+                  {{ 'products.product.sold_out' | t | escape }}
+                {%- endif -%}
+              </span>
+              <span class="sr-only">
+                {% if product.selected_or_first_available_variant.available %}
+                  {{ 'products.product.add_to_bag' | t | escape }}
+                {% else %}
+                  {{ 'products.product.sold_out' | t | escape }}
+                {% endif %}
+              </span>
+            </button>
+            <div
+              class="form-message min-h-5 transition-opacity duration-300 pointer-events-none subtitle"
+              role="status"
+              aria-live="polite"
+            ></div>
+          {%- endform -%}
+        </div>
+
+        {% comment %} shipping info {% endcomment %}
+
+        <div class="product__shipping--info w-full flex flex-col gap-3 h-21">
+          <p class="flex gap-1.5 subtitle">
+            {{ 'shipping-icon.svg' | inline_asset_content }}
+            <span>{{ 'products.product.free_shipping' | t }}</span>
+          </p>
+          <P class="flex gap-1.5 subtitle">
+            {{ 'checkout-icon.svg' | inline_asset_content -}}
+            <span>{{- 'products.product.safe_checkout' | t -}}</span>
+          </P>
+          <p class="flex gap-1.5 subtitle">
+            {{ 'after-pay-icon.svg' | inline_asset_content }}
+            <span>{{ 'products.product.after_pay_checkout' | t }}</span>
+          </p>
+        </div>
+
+        {% comment %} description 2 {% endcomment %}
+
+        <div class="product__description subtitle">
+          Let your attitude have the edge in your Nike Air Max Plus, a Tuned Air experience that offers premium
+          stability and unbelievable cushioning.
+        </div>
+
+        {% comment %} collapsible-row {% endcomment %}
+
+        <div class="product__accordion flex flex-col gap-2">
+          {% render 'collapsible-row', metafield: size_fit, title: 'SIZE & FIT' %}
+          {% render 'collapsible-row', metafield: product_notes, title: 'PRODUCT NOTES' %}
+          {% render 'collapsible-row', metafield: returns_policy, title: 'DELIVERY & RETURNS' %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="{{ 'product.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "t:general.product",
+  "settings": [],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "text",
+          "default": "Vendor",
+          "label": "Text"
+        },
+        {
+          "type": "select",
+          "id": "text_style",
+          "options": [
+            {
+              "value": "body",
+              "label": "body"
+            },
+            {
+              "value": "subtitle",
+              "label": "subtitle"
+            },
+            {
+              "value": "uppercase",
+              "label": "uppercase"
+            }
+          ],
+          "default": "body",
+          "label": "Body"
+        }
+      ]
+    },
+    {
+      "type": "title",
+      "name": "Title",
+      "limit": 1
+    },
+    {
+      "type": "price",
+      "name": "Price",
+      "limit": 1
+    },
+    {
+      "type": "sku",
+      "name": "SKU",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "text_style",
+          "options": [
+            {
+              "value": "body",
+              "label": "body"
+            },
+            {
+              "value": "subtitle",
+              "label": "subtitle"
+            },
+            {
+              "value": "uppercase",
+              "label": "uppercase"
+            }
+          ],
+          "default": "body",
+          "label": "Body"
+        }
+      ]
+    },
+    {
+      "type": "inventory",
+      "name": "Inventory",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "text_style",
+          "options": [
+            {
+              "value": "body",
+              "label": "Body"
+            },
+            {
+              "value": "subtitle",
+              "label": "Subtitle"
+            },
+            {
+              "value": "uppercase",
+              "label": "Uppercase"
+            }
+          ],
+          "default": "body",
+          "label": "Body"
+        },
+        {
+          "type": "range",
+          "id": "low_inventory_threshold",
+          "label": "Range",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 10
+        },
+        {
+          "type": "checkbox",
+          "id": "show_inventory_quantity",
+          "label": "Inventory quantity",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "quantity_selector",
+      "name": "Quantity selector",
+      "limit": 1
+    },
+    {
+      "type": "description",
+      "name": "Description",
+      "limit": 1
+    },
+    {
+      "type": "popup",
+      "name": "Pop-up",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "default": "Link label",
+          "label": "Pop-up link text"
+        },
+        {
+          "id": "page",
+          "type": "page",
+          "label": "Page"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% comment %}
   {% form 'product', product %}
     {% assign current_variant = product.selected_or_first_available_variant %}
 
@@ -35,19 +548,8 @@
     </select>
 
     <input type="text" name="quantity" min="1" value="1">
-    {% render 'accordion' %}
 
-    <input type="submit" value="Add to cart">
+    <input type="submit" value="Add To Bag">
     {{ form | payment_button }}
   {% endform %}
-</div>
-
-{% schema %}
-{
-  "name": "t:general.product",
-  "settings": [],
-  "disabled_on": {
-    "groups": ["header", "footer"]
-  }
-}
-{% endschema %}
+{% endcomment %}
