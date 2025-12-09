@@ -11,6 +11,45 @@
   "sections": {
     "main": {
       "type": "product",
+      "blocks": {
+        "title_UmEdJA": {
+          "type": "title",
+          "settings": {}
+        },
+        "rating_LhnqGQ": {
+          "type": "rating",
+          "settings": {}
+        },
+        "price_LLRhPd": {
+          "type": "price",
+          "settings": {}
+        },
+        "description_KjG6fP": {
+          "type": "description",
+          "settings": {}
+        },
+        "variant_picker_HtNnhn": {
+          "type": "variant_picker",
+          "settings": {}
+        },
+        "customer_benefits_BUPWmj": {
+          "type": "customer_benefits",
+          "settings": {}
+        },
+        "collapsible_rows_eUHdmJ": {
+          "type": "collapsible_rows",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "title_UmEdJA",
+        "rating_LhnqGQ",
+        "price_LLRhPd",
+        "description_KjG6fP",
+        "variant_picker_HtNnhn",
+        "customer_benefits_BUPWmj",
+        "collapsible_rows_eUHdmJ"
+      ],
       "settings": {}
     },
     "recommended_products_PE6arh": {
