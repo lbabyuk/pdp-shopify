@@ -10,7 +10,7 @@
   aria-live="polite"
   {{ shopify_attributes }}
 >
-  {%- assign product_price = product.selected_or_first_available_variant -%}
+  {%- assign product_price = selected_variant -%}
   {%- if product_price.compare_at_price > product_price.price -%}
     <span
       class="compare_at_price body line-through"

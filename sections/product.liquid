@@ -22,6 +22,11 @@
   {% assign average_stars = 0 %}
 {% endif %}
 
+{% assign selected_variant = product.selected_or_first_available_variant %}
+{% if request.params.variant %}
+  {% assign selected_variant = product.variants | where: 'id', request.params.variant | first %}
+{% endif %}
+
 <section
   class="product section-{{ section.id }}"
   id="Product-{{ section.id }}"
@@ -32,7 +37,7 @@
   <div class="product__container grid">
     <div class="grid grid-cols-1 md:grid-cols-2 pt-4 px-4 md:px-15 gap-6 lg:gap-15 justify-center">
       <div class="product__slider--container w-full">
-        {% render 'product-media-slider', stars: average_stars %}
+        {% render 'product-media-slider', stars: average_stars, selected_variant: selected_variant %}
       </div>
 
       <div class=" product__info--container w-full flex flex-col gap-6">
@@ -87,7 +92,8 @@
                   {{ block.shopify_attributes }}
                 >
                   <span class="visually-hidden">{{ 'products.product.sku' | t }}:</span>
-                  {{- product.selected_or_first_available_variant.sku -}}
+                  {{- selected_variant.sku -}}
+                  }
                 </p>
             {%- endcase -%}
           {% endfor %}
@@ -95,64 +101,15 @@
         {%- for block in section.blocks -%}
           {%- case block.type -%}
             {%- when 'price' -%}
-              {% render 'product-price', shopify_attributes: block.shopify_attributes %}
-            {%- when 'variant_picker' -%}
-              {% render 'product-options', shopify_attributes: block.shopify_attributes %}
+              {% render 'product-price',
+                shopify_attributes: block.shopify_attributes,
+                selected_variant: selected_variant
+              %}
           {%- endcase -%}
         {% endfor %}
 
-        {% comment %} product__form {% endcomment %}
-        <div class="product__form">
-          {%- form 'product', product, class: 'form', data-type: 'add-to-cart-form' -%}
-            <input
-              type="hidden"
-              name="id"
-              value="{{ product.selected_or_first_available_variant.id }}"
-              class="sr-only"
-              aria-hidden="true"
-            >
-            <input
-              type="hidden"
-              name="id"
-              id="selected-variant-id"
-              value="{{ product.selected_or_first_available_variant.id }}"
-              class="sr-only"
-              aria-hidden="true"
-            >
-            <button
-              type="button"
-              name="add"
-              class="
-                add-to-cart-button button--secondary cursor-pointer w-full
-                disabled:cursor-not-allowed transition-colors duration-300
-                focus-visible
-              "
-              {%- unless product.selected_or_first_available_variant.available -%}
-                disabled
-              {%- endunless -%}
-            >
-              <span aria-live="polite" aria-hidden="true">
-                {%- if product.selected_or_first_available_variant.available -%}
-                  {{ 'products.product.add_to_bag' | t | escape }}
-                {%- else -%}
-                  {{ 'products.product.sold_out' | t | escape }}
-                {%- endif -%}
-              </span>
-              <span class="sr-only">
-                {% if product.selected_or_first_available_variant.available %}
-                  {{ 'products.product.add_to_bag' | t | escape }}
-                {% else %}
-                  {{ 'products.product.sold_out' | t | escape }}
-                {% endif %}
-              </span>
-            </button>
-            <div
-              class="form-message min-h-5 transition-opacity duration-300 pointer-events-none subtitle"
-              role="status"
-              aria-live="polite"
-            ></div>
-          {%- endform -%}
-        </div>
+        {% render 'product-form', product: product, id: section.id, selected_variant: selected_variant %}
+
         {%- for block in section.blocks -%}
           {%- case block.type -%}
             {%- when 'customer_benefits' -%}
@@ -160,9 +117,11 @@
           {%- endcase -%}
         {%- endfor -%}
 
-        <div class="product__description subtitle">
-          <p class="subtitle">{{ description_text | escape }}</p>
-        </div>
+        {%- unless description_text.blank -%}
+          <div class="product__description subtitle">
+            <p class="subtitle">{{ description_text | escape }}</p>
+          </div>
+        {%- endunless -%}
 
         {%- for block in section.blocks -%}
           {%- case block.type -%}
@@ -183,6 +142,10 @@
 </section>
 
 <script src="{{ 'product.js' | asset_url }}" defer></script>
+
+<script>
+  console.log({{ product | json }})
+</script>
 
 {% schema %}
 {

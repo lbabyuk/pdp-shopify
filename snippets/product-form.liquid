@@ -1,0 +1,71 @@
+{% comment %}
+  Product form snippet
+  usage:  {% render 'product-form', product: product, id: section.id %}
+{% endcomment %}
+
+<div class="product__form">
+  {%- form 'product', product, class: 'form', data-type: 'add-to-cart-form' -%}
+    <input
+      type="hidden"
+      name="id"
+      value="{{ selected_variant }}"
+      class="sr-only"
+      aria-hidden="true"
+    >
+    <input
+      type="hidden"
+      name="id"
+      id="selected-variant-id"
+      value="{{ selected_variant }}"
+      class="sr-only"
+      aria-hidden="true"
+    >
+
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'variant_picker' -%}
+          <div class="flex flex-col gap-6 pb-2">
+            {% render 'product-options',
+              product: product,
+              id: 'Product-{{ id }}',
+              selected_variant: selected_variant,
+              shopify_attributes: block.shopify_attributes
+            %}
+          </div>
+      {%- endcase -%}
+    {% endfor %}
+
+    <button
+      type="button"
+      name="add"
+      class="
+        add-to-cart-button button--secondary cursor-pointer w-full
+        disabled:cursor-not-allowed transition-colors duration-300
+        focus-visible
+      "
+      {%- unless selected_variant -%}
+        disabled
+      {%- endunless -%}
+    >
+      <span aria-live="polite" aria-hidden="true">
+        {%- if selected_variant -%}
+          {{ 'products.product.add_to_bag' | t | escape }}
+        {%- else -%}
+          {{ 'products.product.sold_out' | t | escape }}
+        {%- endif -%}
+      </span>
+      <span class="sr-only">
+        {% if selected_variant %}
+          {{ 'products.product.add_to_bag' | t | escape }}
+        {% else %}
+          {{ 'products.product.sold_out' | t | escape }}
+        {% endif %}
+      </span>
+    </button>
+    <div
+      class="form-message min-h-5 transition-opacity duration-300 pointer-events-none subtitle"
+      role="status"
+      aria-live="polite"
+    ></div>
+  {%- endform -%}
+</div>

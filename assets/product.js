@@ -78,6 +78,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const addToCartBtn = document.querySelector(".add-to-cart-button");
   const messageBox = document.querySelector(".form-message");
 
+  const sizeRadios = document.querySelectorAll(".size-input");
+
   if (!thumbsSwiperEl || !mainSwiperEl || !variantContainer) return;
 
   const allThumbSlides = Array.from(document.querySelectorAll(".thumbSwiper .swiper-slide"));
@@ -102,6 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const sizeVal = sizeIndex >= 0 ? v[`option${sizeIndex + 1}`] : null;
       const colorMatch = color ? colorVal === color : true;
       const sizeMatch = size ? sizeVal === size : true;
+
       return colorMatch && sizeMatch;
     });
   }
@@ -112,7 +115,9 @@ document.addEventListener("DOMContentLoaded", function () {
     loop: false,
     freeMode: true,
     watchSlidesProgress: true,
-    keyboard: true,
+    keyboard: {
+      enabled: true
+    },
     breakpoints: {
       0: { spaceBetween: 16, direction: "horizontal" },
       768: { spaceBetween: 16, direction: "horizontal" },
@@ -145,14 +150,20 @@ document.addEventListener("DOMContentLoaded", function () {
     if (index >= 0 && mainSwiper) mainSwiper.slideTo(index);
   }
 
-  function updateThumbnailsForColor(color) {
+  function updateThumbnailsForColor(variant) {
+    if (!variant) return;
+    const featuredMediaId = variant.mediaId;
     allThumbSlides.forEach((slide) => {
-      const slideColor = slide.dataset.mediaColor?.toLowerCase();
-      const shouldShow = !color || (slideColor && slideColor === color.toLowerCase());
+      const mediaId = slide.dataset.mediaId;
+      const shouldShow = String(mediaId) === String(featuredMediaId);
+
       slide.classList.toggle("hidden", !shouldShow);
       slide.setAttribute("tabindex", shouldShow ? "0" : "-1");
     });
+
     thumbsSwiper.update();
+
+    updateMainImage(featuredMediaId);
   }
 
   if (colorRadios.length && colorSelect) {
@@ -192,14 +203,18 @@ document.addEventListener("DOMContentLoaded", function () {
     currentMessageType = null;
   }
   let hasInteracted = false;
+
   function updateVariant() {
     const color = colorSelect?.value;
     const size = getSelectedSize();
     const variant = findVariant(color, size);
+
     if (!variant) return;
+
     variantInput.value = variant.id;
+
     updateMainImage(variant.mediaId);
-    updateThumbnailsForColor(color);
+    updateThumbnailsForColor(variant);
 
     if (variant.available) {
       addToCartBtn.disabled = false;
@@ -247,26 +262,15 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       if (!addResponse.ok) throw new Error("Add to cart failed");
-      const addedItem = await addResponse.json();
-      showMessage("Added to cart!", "success");
-
+      await addResponse.json();
+      showMessage(`Added to cart!`, "success");
       const cartResponse = await fetch(window.Shopify.routes.root + "cart.js");
+
       if (!cartResponse.ok) throw new Error("Fetch cart failed");
       const cart = await cartResponse.json();
-      console.log(cart.item_count);
 
-      const cartCountBubble = document.querySelector(".cart-count-bubble span:first-child");
+      const cartCountBubble = document.querySelector(".cart-count-bubble sup:first-child");
       if (cartCountBubble) cartCountBubble.textContent = cart.item_count;
-      const cartCountVisuallyHidden = document.querySelector(".cart-count-bubble .visually-hidden");
-      if (cartCountVisuallyHidden) cartCountVisuallyHidden.textContent = `${cart.item_count} items`;
-
-      const cartNotification = document.querySelector("cart-notification");
-
-      if (cartNotification) {
-        cartNotification.items = addedItem;
-        cartNotification.open(cart);
-        cartNotification.renderContents();
-      }
     } catch (err) {
       console.error(err);
       showMessage("Network error. Please try again.", "error");

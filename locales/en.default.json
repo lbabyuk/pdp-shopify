@@ -74,6 +74,7 @@
       "no_recommended_products": "No recommended products",
       "on_sale": "On sale",
       "highly_rated": "Highly Rated",
+      "best_seller": "Best Seller",
       "regular_price": "Regular price",
       "currant_price": "Currant price",
       "add_to_bag": "Add To Bag",
@@ -108,5 +109,8 @@
         "default": "Recommended Products"
       }
     }
+  },
+  "header": {
+    "cart_count": "Cart count"
   }
 }

@@ -19,18 +19,21 @@
       {% endfor %}
     </nav>
     <div class="header__cart relative" aria-label="View cart">
-      <a href="{{ routes.cart_url }}" class="relative transition-colors duration-300 group  overflow-visible!">
+      <a href="{{ routes.cart_url }}" class="relative transition-colors duration-300 group overflow-visible!">
         {% if cart.item_count > 0 %}
-          <sup
-            aria-label="{{ cart.item_count }} items in cart"
-            class="
-              absolute w-5 h-5
-              flex items-center justify-center top-0 left-4
-               -translate-x-1/4 -translate-y-1/4 rounded-full border border-black bg-white group-hover:border-indigo-500  group-hover:text-indigo-500
-            "
-          >
-            {{- cart.item_count -}}
-          </sup>
+          <div class="cart-count-bubble">
+            <sup
+              aria-hidden="true"
+              aria-label="{{ cart.item_count }} items in cart"
+              class="
+                absolute w-5 h-5
+                flex items-center justify-center top-0 left-4
+                 -translate-x-1/4 -translate-y-1/4 rounded-full border border-black bg-black text-white group-hover:border-indigo-500  group-hover:text-indigo-500
+              "
+            >
+              {{- cart.item_count -}}
+            </sup>
+          </div>
         {% endif %}
 
         <span class="transition-colors duration-300 group-hover:text-indigo-500">

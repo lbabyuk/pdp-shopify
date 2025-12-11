@@ -281,15 +281,16 @@
 
   .swiper-button-next,
   .swiper-button-prev {
-    display: none !important;
+    border: 1.05px solid var(--color-light-gray);
     background-color: var(--color-white);
-    border-color: var(--color-light-gray);
+    width: 40px !important;
+    height: 40px !important;
   }
 
   .swiper-button-next svg,
   .swiper-button-prev svg {
-    width: 16px !important;
-    height: 16px !important;
+    width: 25px !important;
+    height: 25px !important;
   }
 
   @media (min-width: 768px) {

@@ -24,13 +24,11 @@ const initSwiper = (containerSelector = ".slider-products") => {
       1024: { slidesPerView: 4, spaceBetween: 24 }
     };
 
-    const slidesPerView = getSlidesPerView(breakpoints, viewportWidth, 1.1);
-    const enableLoop = slideCount > slidesPerView;
+    getSlidesPerView(breakpoints, viewportWidth, 1.1);
 
     new Swiper(slider, {
       slidesPerView: 1.1,
       spaceBetween: 16,
-      loop: enableLoop,
       keyboard: true,
       watchOverflow: true,
       navigation: {
