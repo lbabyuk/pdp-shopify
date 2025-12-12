@@ -26,7 +26,8 @@
     "checkout": "Checkout",
     "title": "Cart",
     "update": "Update",
-    "remove": "Remove"
+    "remove": "Remove",
+    "Quantity": "Quantity"
   },
   "customers": {
     "login": {
@@ -80,6 +81,7 @@
       "add_to_bag": "Add To Bag",
       "sold_out": "Sold Out",
       "select_color": "Select color",
+      "select_size":"Select Size:",
       "free_shipping": "Free U.S. Shipping Over $150",
       "safe_checkout": "Safe & Secure Checkout",
       "after_pay_checkout": "Afterpay available at checkout",

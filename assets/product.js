@@ -204,6 +204,9 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   let hasInteracted = false;
 
+  const visibleText = addToCartBtn.querySelector('[aria-hidden="true"]');
+  const srText = addToCartBtn.querySelector(".sr-only");
+
   function updateVariant() {
     const color = colorSelect?.value;
     const size = getSelectedSize();
@@ -216,13 +219,21 @@ document.addEventListener("DOMContentLoaded", function () {
     updateMainImage(variant.mediaId);
     updateThumbnailsForColor(variant);
 
+    if (variant && history.replaceState) {
+      const url = new URL(window.location);
+      url.searchParams.set("variant", variant.id);
+      window.history.replaceState({}, "", url);
+    }
+
     if (variant.available) {
       addToCartBtn.disabled = false;
-      addToCartBtn.textContent = "Add to Cart";
+      visibleText.textContent = addToCartBtn.dataset.addToBagText;
+      srText.textContent = addToCartBtn.dataset.addToBagText;
       hideErrorMessage();
     } else {
       addToCartBtn.disabled = true;
-      addToCartBtn.textContent = "Sold Out";
+      visibleText.textContent = addToCartBtn.dataset.soldOutText;
+      srText.textContent = addToCartBtn.dataset.soldOutText;
       if (hasInteracted && color && size) {
         showMessage(`Variant ${size}/${color} is currently unavailable.`, "error");
       }
@@ -252,7 +263,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     addToCartBtn.disabled = true;
-    addToCartBtn.textContent = "Adding...";
 
     try {
       const addResponse = await fetch(window.Shopify.routes.root + "cart/add.js", {
@@ -276,7 +286,8 @@ document.addEventListener("DOMContentLoaded", function () {
       showMessage("Network error. Please try again.", "error");
     } finally {
       addToCartBtn.disabled = false;
-      addToCartBtn.textContent = "Add to Cart";
+      visibleText.textContent = addToCartBtn.dataset.addToBagText;
+      srText.textContent = addToCartBtn.dataset.addToBagText;
       updateVariant();
     }
   });

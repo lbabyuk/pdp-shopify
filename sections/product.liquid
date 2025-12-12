@@ -22,22 +22,323 @@
   {% assign average_stars = 0 %}
 {% endif %}
 
-{% assign selected_variant = product.selected_or_first_available_variant %}
-{% if request.params.variant %}
-  {% assign selected_variant = product.variants | where: 'id', request.params.variant | first %}
-{% endif %}
+{% comment %}
+  {% assign selected_variant = product.selected_or_first_available_variant %}
+  {% if request.params.variant %}
+    {% assign selected_variant = product.variants | where: 'id', request.params.variant | first %}
+  {% endif %}
+
+  <section
+    class="product section-{{ section.id }}"
+    id="Product-{{ section.id }}"
+    data-section="{{ section.id }}"
+    data-url="{{ product.url }}"
+    data-section-id="{{ section.id }}"
+  >
+    <div class="product__container grid">
+      <div class="grid grid-cols-1 md:grid-cols-2 pt-4 px-4 md:px-16 gap-6 lg:gap-15 justify-center">
+        <div class="product__slider--container w-full md:sticky md:top-15 self-start">
+          {% render 'product-media-slider', stars: average_stars, selected_variant: selected_variant %}
+        </div>
+
+        <div class=" product__info--container w-full flex flex-col gap-6">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'text' -%}
+                <span
+                  {{ block.shopify_attributes }}
+                  class="product__text inline-richtext{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}"
+                >
+                  {{- block.settings.text -}}
+                  {% if product.vendor %}
+                    — {{ product.vendor }}
+                  {% endif %}
+                </span>
+            {%- endcase -%}
+          {%- endfor -%}
+
+          <div class="product__info--heading flex flex-col gap-3">
+            <div class="flex flex-col gap-2">
+              {%- for block in section.blocks -%}
+                {%- case block.type -%}
+                  {%- when 'title' -%}
+                    {%- if product.title != blank -%}
+                      <h1 class="product_title h2" {{ block.shopify_attributes }}>{{ product.title | escape }}</h1>
+                    {%- else -%}
+                      <h1 class="product_title h2" {{ block.shopify_attributes }}>{{ product.handle | capitalize }}</h1>
+                    {%- endif -%}
+                  {%- when 'rating' -%}
+                    <div class="product-average-rating flex items-center gap-2 mt-4" {{ block.shopify_attributes }}>
+                      {% render 'stars', stars: average_stars, label: 'Average rating' %}
+                      <span class="subtitle" aria-hidden="true">{{- average_stars | times: 1.0 | round: 1 -}}</span>
+                    </div>
+                {%- endcase -%}
+              {%- endfor -%}
+            </div>
+            {%- for block in section.blocks -%}
+              {%- case block.type -%}
+                {%- when 'description' -%}
+                  {% if product.description != blank %}
+                    <div class="product__description subtitle" {{ block.shopify_attributes }}>
+                      {{ product.description }}
+                    </div>
+                  {%- else -%}
+                    {{ 'products.product.product_description' | t }}
+                  {%- endif -%}
+                {%- when 'sku' -%}
+                  <p
+                    class="product__sku{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}{% if product.selected_or_first_available_variant.sku.size == 0 %} visibility-hidden{% endif %}"
+                    id="Sku-{{ section.id }}"
+                    role="status"
+                    {{ block.shopify_attributes }}
+                  >
+                    <span class="visually-hidden">{{ 'products.product.sku' | t }}:</span>
+                    {{- selected_variant.sku -}}
+                    }
+                  </p>
+              {%- endcase -%}
+            {% endfor %}
+          </div>
+
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'price' -%}
+                {% render 'product-price',
+                  shopify_attributes: block.shopify_attributes,
+                  selected_variant: selected_variant
+                %}
+            {%- endcase -%}
+          {% endfor %}
+
+          {% render 'product-form', product: product, id: section.id, selected_variant: selected_variant %}
+
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'customer_benefits' -%}
+                {% render 'customer-benefits', shopify_attributes: block.shopify_attributes %}
+            {%- endcase -%}
+          {%- endfor -%}
+
+          {%- unless description_text.blank -%}
+            <div class="product__description subtitle">
+              <p class="subtitle">{{ description_text | escape }}</p>
+            </div>
+          {%- endunless -%}
+
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'collapsible_rows' -%}
+                <div class="product__accordion flex flex-col gap-2" {{ block.shopify_attributes }}>
+                  {% assign size_and_fit = 'products.product.size_and_fit_title' | t %}
+                  {% assign product_notes_title = 'products.product.product_notes_title' | t %}
+                  {% assign delivery_and_returns_title = 'products.product.delivery_and_returns_title' | t %}
+                  {% render 'collapsible-row', metafield: size_fit, title: size_and_fit %}
+                  {% render 'collapsible-row', metafield: product_notes, title: product_notes_title %}
+                  {% render 'collapsible-row', metafield: returns_policy, title: delivery_and_returns_title %}
+                </div>
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="{{ 'product.js' | asset_url }}" defer></script>
+
+  <script>
+    console.log({{ product | json }})
+  </script>
+
+
+  {% schema %}
+  {
+    "name": "t:general.product",
+    "settings": [],
+    "disabled_on": {
+      "groups": ["header", "footer"]
+    },
+    "blocks": [
+      {
+        "type": "text",
+        "name": "t:sections.main-product.blocks.text.name",
+        "settings": [
+          {
+            "type": "inline_richtext",
+            "id": "text",
+            "default": "Text",
+            "label": "Text"
+          },
+          {
+            "type": "select",
+            "id": "text_style",
+            "options": [
+              {
+                "value": "body",
+                "label": "body"
+              },
+              {
+                "value": "subtitle",
+                "label": "subtitle"
+              },
+              {
+                "value": "uppercase",
+                "label": "uppercase"
+              }
+            ],
+            "default": "body",
+            "label": "Body"
+          }
+        ]
+      },
+      {
+        "type": "title",
+        "name": "t:sections.main-product.blocks.title.name",
+        "limit": 1
+      },
+
+      {
+        "type": "price",
+        "name": "t:sections.main-product.blocks.price.name",
+        "limit": 1
+      },
+      {
+        "type": "sku",
+        "name": "t:sections.main-product.blocks.sku.name",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "select",
+            "id": "text_style",
+            "options": [
+              {
+                "value": "body",
+                "label": "body"
+              },
+              {
+                "value": "subtitle",
+                "label": "subtitle"
+              },
+              {
+                "value": "uppercase",
+                "label": "uppercase"
+              }
+            ],
+            "default": "body",
+            "label": "Body"
+          }
+        ]
+      },
+      {
+        "type": "quantity_selector",
+        "name": "Quantity selector",
+        "limit": 1
+      },
+      {
+        "type": "description",
+        "name": "t:sections.main-product.blocks.description.name",
+        "limit": 1
+      },
+      {
+        "type": "rating",
+        "name": "t:sections.main-product.blocks.rating.name",
+        "limit": 1
+      },
+      {
+        "type": "variant_picker",
+        "name": "t:sections.main-product.blocks.variant_picker.name",
+        "limit": 1
+      },
+      {
+        "type": "popup",
+        "name": "Pop-up",
+        "settings": [
+          {
+            "type": "text",
+            "id": "text",
+            "default": "Link label",
+            "label": "Pop-up link text"
+          },
+          {
+            "id": "page",
+            "type": "page",
+            "label": "Page"
+          }
+        ]
+      },
+      {
+        "type": "customer_benefits",
+        "name": "t:sections.main-product.blocks.customer_benefits.name",
+        "limit": 1
+      },
+      {
+        "type": "collapsible_rows",
+        "name": "t:sections.main-product.blocks.collapsible_rows.name",
+        "limit": 1
+      }
+    ]
+  }
+  {% endschema %}
+
+  {% comment %}
+    {% form 'product', product %}
+      {% assign current_variant = product.selected_or_first_available_variant %}
+
+      <select name="id">
+        {% for variant in product.variants %}
+          <option
+            value="{{ variant.id }}"
+            {% if variant == current_variant %}
+              selected="selected"
+            {% endif %}
+          >
+            {{ variant.title }} - {{ variant.price | money }}
+          </option>
+        {% endfor %}
+      </select>
+
+      <input type="text" name="quantity" min="1" value="1">
+
+      <input type="submit" value="Add To Bag">
+      {{ form | payment_button }}
+    {% endform %}
+  {% endcomment %}
+{% endcomment %}
 
 <section
   class="product section-{{ section.id }}"
   id="Product-{{ section.id }}"
   data-section="{{ section.id }}"
   data-url="{{ product.url }}"
-  data-section-id="{{ section.id }}"
 >
   <div class="product__container grid">
-    <div class="grid grid-cols-1 md:grid-cols-2 pt-4 px-4 md:px-15 gap-6 lg:gap-15 justify-center">
-      <div class="product__slider--container w-full">
-        {% render 'product-media-slider', stars: average_stars, selected_variant: selected_variant %}
+    <div class="grid grid-cols-1 md:grid-cols-2 pt-4 px-4 md:px-16 gap-6 lg:gap-15 justify-center">
+      <div class="product__slider--container w-full md:sticky md:top-15 self-start">
+        {%- if product.has_only_default_variant -%}
+          {{
+            product.featured_image
+            | image_url: width: 500
+            | image_tag:
+              loading: 'lazy',
+              width: 500,
+              height: 500,
+              alt: 'hello',
+              fetchpriority: 'high',
+              class: 'object-cover'
+          }}
+        {%- else -%}
+          {{
+            product.selected_or_first_available_variant.image
+            | image_url: width: 1000
+            | image_tag:
+              loading: 'lazy',
+              width: 536,
+              height: 536,
+              alt: 'hello',
+              fetchpriority: 'high',
+              class: 'object-cover'
+          }}
+          {% comment %} {% render 'product-media-slider', stars: average_stars, selected_variant: product.selected_or_first_available_variant.image %} {% endcomment %}
+        {%- endif -%}
       </div>
 
       <div class=" product__info--container w-full flex flex-col gap-6">
@@ -55,7 +356,6 @@
               </span>
           {%- endcase -%}
         {%- endfor -%}
-
         <div class="product__info--heading flex flex-col gap-3">
           <div class="flex flex-col gap-2">
             {%- for block in section.blocks -%}
@@ -92,23 +392,26 @@
                   {{ block.shopify_attributes }}
                 >
                   <span class="visually-hidden">{{ 'products.product.sku' | t }}:</span>
-                  {{- selected_variant.sku -}}
+                  {{- product.selected_or_first_available_variant.sku -}}
                   }
                 </p>
             {%- endcase -%}
           {% endfor %}
         </div>
+
         {%- for block in section.blocks -%}
           {%- case block.type -%}
             {%- when 'price' -%}
-              {% render 'product-price',
-                shopify_attributes: block.shopify_attributes,
-                selected_variant: selected_variant
-              %}
+              {% render 'product-price', shopify_attributes: block.shopify_attributes, product: product %}
           {%- endcase -%}
         {% endfor %}
 
-        {% render 'product-form', product: product, id: section.id, selected_variant: selected_variant %}
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'variant_picker' -%}
+              {% render 'product-form', product: product, shopify_attributes: block.shopify_attributes %}
+          {%- endcase -%}
+        {% endfor %}
 
         {%- for block in section.blocks -%}
           {%- case block.type -%}
@@ -141,11 +444,18 @@
   </div>
 </section>
 
-<script src="{{ 'product.js' | asset_url }}" defer></script>
-
 <script>
   console.log({{ product | json }})
 </script>
+
+<div
+  id="product-data"
+  data-section-id="{{ section.id }}"
+  data-variants="{{ product.variants | json | escape }}"
+></div>
+
+<script src="{{ 'option-picker.js' | asset_url }}" defer></script>
+<script src="{{ 'add-to-cart.js' | asset_url }}" defer></script>
 
 {% schema %}
 {
@@ -275,27 +585,3 @@
   ]
 }
 {% endschema %}
-
-{% comment %}
-  {% form 'product', product %}
-    {% assign current_variant = product.selected_or_first_available_variant %}
-
-    <select name="id">
-      {% for variant in product.variants %}
-        <option
-          value="{{ variant.id }}"
-          {% if variant == current_variant %}
-            selected="selected"
-          {% endif %}
-        >
-          {{ variant.title }} - {{ variant.price | money }}
-        </option>
-      {% endfor %}
-    </select>
-
-    <input type="text" name="quantity" min="1" value="1">
-
-    <input type="submit" value="Add To Bag">
-    {{ form | payment_button }}
-  {% endform %}
-{% endcomment %}

@@ -339,6 +339,9 @@
               }
             }
           }
+        },
+        "quantity_input": {
+          "name": "Quantity input"
         }
       }
     }

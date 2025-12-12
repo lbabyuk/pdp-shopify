@@ -1,61 +1,58 @@
-{% comment %}
-  Product form snippet
-  usage:  {% render 'product-form', product: product, id: section.id %}
-{% endcomment %}
-
 <div class="product__form">
   {%- form 'product', product, class: 'form', data-type: 'add-to-cart-form' -%}
-    <input
-      type="hidden"
-      name="id"
-      value="{{ selected_variant }}"
-      class="sr-only"
-      aria-hidden="true"
-    >
-    <input
-      type="hidden"
-      name="id"
-      id="selected-variant-id"
-      value="{{ selected_variant }}"
-      class="sr-only"
-      aria-hidden="true"
-    >
-
     {%- for block in section.blocks -%}
       {%- case block.type -%}
         {%- when 'variant_picker' -%}
           <div class="flex flex-col gap-6 pb-2">
-            {% render 'product-options',
-              product: product,
-              id: 'Product-{{ id }}',
-              selected_variant: selected_variant,
-              shopify_attributes: block.shopify_attributes
-            %}
+            {%- unless product.has_only_default_variant -%}
+              <option-picker data-section-id="{{ section.id }}" {{ shopify_attributes }}>
+                {% render 'product-options' %}
+              </option-picker>
+            {%- endunless -%}
           </div>
       {%- endcase -%}
-    {% endfor %}
+    {%- endfor -%}
 
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'quantity_selector' -%}
+          <div class="product_quantity flex flex-col gap-2 pb-4" {{ shopify_attributes }}>
+            {% render 'product-quantity' %}
+          </div>
+      {%- endcase -%}
+    {%- endfor -%}
+
+    <input
+      type="hidden"
+      name="id"
+      id="selected-variant-id"
+      value="{{ product.selected_or_first_available_variant.id }}"
+      class="sr-only"
+      aria-hidden="true"
+    >
     <button
-      type="button"
+      type="submit"
       name="add"
       class="
         add-to-cart-button button--secondary cursor-pointer w-full
         disabled:cursor-not-allowed transition-colors duration-300
         focus-visible
       "
-      {%- unless selected_variant -%}
+      data-add-to-bag-text="{{ 'products.product.add_to_bag' | t | escape }}"
+      data-sold-out-text="{{ 'products.product.sold_out' | t | escape }}"
+      {% unless product.selected_or_first_available_variant.available %}
         disabled
-      {%- endunless -%}
+      {% endunless %}
     >
       <span aria-live="polite" aria-hidden="true">
-        {%- if selected_variant -%}
+        {%- if product.selected_or_first_available_variant.available -%}
           {{ 'products.product.add_to_bag' | t | escape }}
         {%- else -%}
           {{ 'products.product.sold_out' | t | escape }}
         {%- endif -%}
       </span>
       <span class="sr-only">
-        {% if selected_variant %}
+        {% if product.selected_or_first_available_variant.available %}
           {{ 'products.product.add_to_bag' | t | escape }}
         {% else %}
           {{ 'products.product.sold_out' | t | escape }}

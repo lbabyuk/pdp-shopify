@@ -211,7 +211,8 @@
   }
 
   .reviews__cards--card,
-  .size-option {
+  .size__option,
+  .product_quantity--input {
     border: 1px solid var(--color-light-gray);
   }
 
@@ -240,7 +241,7 @@
   }
 
   .color__option,
-  .size-option {
+  .size__option {
     border-radius: var(--border-radius);
     -webkit-border-radius: var(--border-radius);
     -moz-border-radius: var(--border-radius);
