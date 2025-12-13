@@ -11,7 +11,7 @@ class OptionPicker extends HTMLElement {
     this.optionPickers = this.querySelectorAll('input[type="radio"]');
 
     this.handleChange = this.handleChange.bind(this);
-    
+
     this.optionPickers.forEach((optionPicker) => {
       optionPicker.addEventListener("change", this.handleChange);
     });
@@ -34,6 +34,10 @@ class OptionPicker extends HTMLElement {
         const newDiv = document.createElement("div");
         newDiv.innerHTML = html;
         document.querySelector(".product__container").innerHTML = newDiv.querySelector(".product__container").innerHTML;
+
+        if (window.initializeSlider) window.initializeSlider();
+        if (window.selectVariantThumbnail) window.selectVariantThumbnail(selectCurrentOption.value);
+
         const newURL = new URL(url, window.location.origin);
         newURL.searchParams.delete("section_id");
         window.history.pushState({}, "", newURL.toString());

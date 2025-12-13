@@ -22,6 +22,47 @@
     "comment_form_submit": "Post",
     "comment_form_title": "Add a comment"
   },
+
+  "footer": {
+    "company_name": "Stellar Soft",
+    "term_of_use": "Terms of Use",
+    "privacy_cookie_policy": "Privacy & Cookie Policy",
+    "titles": {
+      "resources": "Resources",
+      "help": "Help",
+      "company": "Company",
+      "menu": "Menu"
+    },
+    "footer_links": {
+      "resources": {
+        "find_store": "Find a Store",
+        "nike_journal": "Nike Journal",
+        "become_member": "Become a Member",
+        "feedback": "Feedback",
+        "promo_codes": "Promo Codes"
+      },
+      "help": {
+        "get_help": "Get Help",
+        "order_status": "Order Status",
+        "shipping_delivery": "Shipping and Delivery",
+        "returns": "Returns",
+        "payment_options":"Payment Options"
+      },
+      "company": {
+        "about_nike": "About Nike",
+        "news": "News",
+        "careers": "Careers",
+        "investors": "Investors",
+        "sustainability": "Sustainability"
+      },
+      "menu": {
+        "new_featured": "New & Featured",
+        "men": "Men",
+        "women": "Women",
+        "kids": "Kids"
+      }
+    }
+  },
   "cart": {
     "checkout": "Checkout",
     "title": "Cart",
@@ -61,7 +102,8 @@
   },
   "buttons": {
     "shop_now": "Shop Now",
-    "add_to_bag": "Add To Bag"
+    "add_to_bag": "Add To Bag",
+    "size_guide": "Size Guide"
   },
   "reviews": {
     "empty_name": "Anonymous",
@@ -81,7 +123,7 @@
       "add_to_bag": "Add To Bag",
       "sold_out": "Sold Out",
       "select_color": "Select color",
-      "select_size":"Select Size:",
+      "select_size": "Select Size:",
       "free_shipping": "Free U.S. Shipping Over $150",
       "safe_checkout": "Safe & Secure Checkout",
       "after_pay_checkout": "Afterpay available at checkout",
@@ -93,7 +135,8 @@
       "size_and_fit_title": "SIZE & FIT",
       "product_notes_title": "PRODUCT NOTES",
       "delivery_and_returns_title": "DELIVERY & RETURNS",
-      "sku": "SKU"
+      "sku": "SKU",
+      "currently_unavailable": "Product is currently unavailable"
     }
   },
   "slider": {
