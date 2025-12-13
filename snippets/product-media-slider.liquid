@@ -6,6 +6,11 @@
 {% endcomment %}
 
 {% assign variant = selected_variant %}
+
+<script>
+  console.log({{ variant | json }});
+</script>
+
 <div
   class="product_image gap-4 xl:gap-6"
   aria-label="{{ 'products.product.media_gallery_viewer' | t | escape }}"
@@ -54,35 +59,36 @@
   >
     <div class="swiper-wrapper">
       {%- for media in product.media -%}
-        {% if variant.featured_media.id == media.id or variant.media contains media %}
-          <div
-            class="image-container swiper-slide flex relative"
-            role="group"
-            aria-label="Image {{ forloop.index }} of {{ product.media.size }}"
-            data-media-id="{{ media.id }}"
-          >
-            {%- if media != blank -%}
-              {% render 'tags', stars: stars %}
+        <div
+          class="image-container swiper-slide flex relative"
+          role="group"
+          aria-label="Image {{ forloop.index }} of {{ product.media.size }}"
+          data-media-id="{{ media.id }}"
+          {% if media.id == selected_variant.featured_media.id %}
+            data-initial-media="true"
+          {% endif %}
+        >
+          {%- if media != blank -%}
+            {% render 'tags', stars: stars %}
 
-              {%- assign alt_text = media.preview_image.alt | default: product.title -%}
-              {{-
-                media
-                | image_url: width: 536, height: 536
-                | image_tag:
-                  loading: 'eager',
-                  width: 536,
-                  height: 536,
-                  alt: alt_text,
-                  sizes: '(max-width: 768px) 100vw, 50vw',
-                  widths: '246, 493, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946',
-                  fetchpriority: 'high',
-                  class: 'w-full h-full object-cover'
-              -}}
-            {%- else -%}
-              {{- 'product-2' | placeholder_svg_tag: 'placeholder-img' -}}
-            {%- endif -%}
-          </div>
-        {%- endif -%}
+            {%- assign alt_text = media.preview_image.alt | default: product.title -%}
+            {{-
+              media
+              | image_url: width: 536, height: 536
+              | image_tag:
+                loading: 'eager',
+                width: 536,
+                height: 536,
+                alt: alt_text,
+                sizes: '(max-width: 768px) 100vw, 50vw',
+                widths: '246, 493, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946',
+                fetchpriority: 'high',
+                class: 'w-full h-full object-cover'
+            -}}
+          {%- else -%}
+            {{- 'product-2' | placeholder_svg_tag: 'placeholder-img' -}}
+          {%- endif -%}
+        </div>
       {%- endfor -%}
     </div>
   </div>

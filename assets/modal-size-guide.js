@@ -1,39 +1,47 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const openBtn = document.querySelector(".open-size-guide");
-  const popup = document.getElementById("sizeGuideModal");
-  const closeBtn = popup.querySelector(".close-modal");
+(function () {
+  function openModal() {
+    const popup = document.getElementById("sizeGuideModal");
+    if (!popup) return;
 
-  if (openBtn && popup && closeBtn) {
-    openBtn.addEventListener("click", () => {
-      popup.style.display = "flex";
-      document.body.style.overflow = "hidden";
-    });
-
-    openBtn.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        popup.style.display = "flex";
-        document.body.style.overflow = "hidden";
-      }
-    });
-
-    closeBtn.addEventListener("click", () => {
-      popup.style.display = "none";
-      document.body.style.overflow = "";
-    });
-
-    window.addEventListener("click", (e) => {
-      if (e.target === popup) {
-        popup.style.display = "none";
-        document.body.style.overflow = "";
-      }
-    });
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && popup.style.display === "flex") {
-        popup.style.display = "none";
-        document.body.style.overflow = "";
-      }
-    });
+    popup.style.display = "flex";
+    document.body.style.overflow = "hidden";
+    popup.focus();
   }
-});
+
+  function closeModal() {
+    const popup = document.getElementById("sizeGuideModal");
+    if (!popup) return;
+
+    popup.style.display = "none";
+    document.body.style.overflow = "";
+  }
+
+  document.addEventListener("click", function (e) {
+    const btn = e.target.closest(".open-size-guide");
+    if (!btn) return;
+
+    e.preventDefault();
+    openModal();
+  });
+
+  document.addEventListener("click", function (e) {
+    if (e.target.closest(".close-modal")) {
+      closeModal();
+    }
+  });
+
+  document.addEventListener("click", function (e) {
+    const popup = document.getElementById("sizeGuideModal");
+    if (!popup) return;
+
+    if (e.target === popup) {
+      closeModal();
+    }
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
+      closeModal();
+    }
+  });
+})();

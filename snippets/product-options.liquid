@@ -22,8 +22,9 @@
                 {{ shopify_attributes }}
                 type="button"
                 class="open-size-guide subtitle underline cursor-pointer"
+                aria-controls="sizeGuideModal"
               >
-                {{ 'buttons.size_guide' | t }}
+                {{- 'buttons.size_guide' | t -}}
               </button>
             </div>
           {% endif -%}
@@ -49,7 +50,7 @@
                   id="{{ option.name | handleize }}-{{ forloop.index }}"
                   name="{{ option.name }}"
                   class="sr-only peer color-input"
-                  data-media-ids="{{ variant.media | map: 'id' | join: ',' }}"
+                  data-media-id="{{ variant.featured_media.id }}"
                   {% if option.selected_value == value %}
                     checked
                   {% endif %}

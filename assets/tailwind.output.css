@@ -29,6 +29,7 @@
     --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     --default-font-family: var(--font-sans);
     --default-mono-font-family: var(--font-mono);
+    --shadow: rgba(17, 17, 17, 0.8);
     --h1-mobile: 1.875rem;
     --h1-mobile-line: 2.25rem;
     --h1-tablet: 2.5rem;
@@ -49,6 +50,7 @@
     --color-gray: #737373;
     --color-light-gray: #ebebeb;
     --active-bg: #11111133;
+    --color-gray-modal: #f5f5f5;
     --btn-primary-bg: #ffffff;
     --btn-primary-text: #111111;
     --btn-primary-bg-hover: #cacacb;
@@ -302,9 +304,6 @@
   .inline-flex {
     display: inline-flex;
   }
-  .table {
-    display: table;
-  }
   .h-5 {
     height: calc(var(--spacing) * 5);
   }
@@ -364,9 +363,6 @@
   }
   .flex-1 {
     flex: 1;
-  }
-  .border-collapse {
-    border-collapse: collapse;
   }
   .-translate-x-1\/4 {
     --tw-translate-x: calc(calc(1/4 * 100%) * -1);
@@ -1072,6 +1068,100 @@
   .swiper-button-next svg, .swiper-button-prev svg {
     width: 25px !important;
     height: 25px !important;
+  }
+  .size-guide table {
+    width: 100%;
+    border-collapse: separate;
+    text-align: center;
+  }
+  .size-guide td {
+    padding: 16px;
+    background: var(--color-white);
+  }
+  .size-guide td:first-child {
+    width: 140px;
+  }
+  .size-guide td:nth-child(n + 2) {
+    width: 100px;
+  }
+  .size-guide table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    font-size: 14px;
+  }
+  .size-guide td {
+    padding: calc(var(--spacing) * 2);
+  }
+  .size-guide td:nth-child(2), .size-guide td:nth-child(4) {
+    background: var(--color-gray-modal);
+  }
+  .size-guide {
+    background: var(--shadow);
+    z-index: 9999;
+    padding: 1rem;
+    position: fixed;
+    inset: calc(var(--spacing) * 0);
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-inner {
+    background: var(--color-white);
+    padding: 48px;
+    position: relative;
+    overflow-y: auto;
+    max-width: 644px;
+    min-width: 50%;
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+  }
+  @media (max-width: 700px) {
+    .size-guide td:first-child {
+      width: 100px;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .modal-inner {
+      width: 100%;
+      height: auto;
+      padding: 32px 16px;
+      font-size: 14px;
+    }
+    .size-guide .close-modal {
+      top: 10px;
+      right: 10px;
+    }
+  }
+  .size-guide .close-modal {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  @-webkit-keyframes animatetop {
+    from {
+      top: -300px;
+      opacity: 0;
+    }
+    to {
+      top: 0;
+      opacity: 1;
+    }
+  }
+  @keyframes animatetop {
+    from {
+      top: -300px;
+      opacity: 0;
+    }
+    to {
+      top: 0;
+      opacity: 1;
+    }
   }
   @media (min-width: 768px) {
     .h1 {

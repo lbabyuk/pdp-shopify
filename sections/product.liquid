@@ -45,19 +45,6 @@
               class: 'object-cover'
           }}
         {%- else -%}
-          {% comment %}
-            {{
-              product.selected_or_first_available_variant.image
-              | image_url: width: 1000
-              | image_tag:
-                loading: 'lazy',
-                width: 536,
-                height: 536,
-                alt: 'hello',
-                fetchpriority: 'high',
-                class: 'object-cover'
-            }}
-          {% endcomment %}
           {% render 'product-media-slider',
             stars: average_stars,
             selected_variant: product.selected_or_first_available_variant
@@ -164,16 +151,11 @@
         {%- endfor -%}
       </div>
     </div>
+    <div class="product__size--guide">
+      {% render 'modal-size-guide', metafield: size_guide %}
+    </div>
   </div>
 </section>
-{%- for block in section.blocks -%}
-  {%- case block.type -%}
-    {%- when 'modal' -%}
-      <div class="product__size--guide">
-        {% render 'modal-size-guide', metafield: size_guide, shopify_attributes: block.shopify_attributes %}
-      </div>
-  {%- endcase -%}
-{% endfor %}
 
 <div
   id="product-data"
