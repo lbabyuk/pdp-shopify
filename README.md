@@ -22,59 +22,27 @@ Clone this repository using Git or Shopify CLI:
 git clone https://github.com/lbabyuk/pdp-shopify.git
 cd <your-repo-folder>
 npm install
-
 -in the root add file shopify.theme.toml
-
 [environments.development]
 store="https://your-store.myshopify.com/"
 theme_id = "YOUR_THEME_ID"
-
 npm run dev
 ```
-
-## Theme architecture
-
-```bash
-.
-├── assets          # Stores static assets (CSS, JS, images, fonts, etc.)
-├── blocks          # Reusable, nestable, customizable UI components
-├── config          # Global theme settings and customization options
-├── layout          # Top-level wrappers for pages (layout templates)
-├── locales         # Translation files for theme internationalization
-├── sections        # Modular full-width page components
-├── snippets        # Reusable Liquid code or HTML fragments
-└── templates       # Templates combining sections to define page structures
-```
-
-### Sections
-
-## CSS & JavaScript
-
-For CSS and JavaScript, we recommend using the [`{% stylesheet %}`](https://shopify.dev/docs/api/liquid/tags#stylesheet) and [`{% javascript %}`](https://shopify.dev/docs/api/liquid/tags/javascript) tags. They can be included multiple times, but the code will only appear once.
-
-### `critical.css`
-
-The Skeleton Theme explicitly separates essential CSS necessary for every page into a dedicated `critical.css` file.
-
-### What was implemented
-
+## What was implemented
 ### Metaobjects and Metafields
-
 This theme uses **Shopify metaobjects and metafields** to make content more flexible and dynamic without hardcoding it into the theme:
-
 Used for **Reviews**, **Product Accordion**, **Product description**, **Customer Benefits**, **Size Guide**
 
 - **Metafields** :
-
-  1.product.metafields.custom.size_fit_new
-  2.product.metafields.custom.product_notes
-  3.product.metafields.custom.returns_policy
-  4.product.metafields.custom.size_guide
-  5.product.metafields.custom.description
+  1.product.metafields.custom.size_fit_new;
+  2.product.metafields.custom.product_notes;
+  3.product.metafields.custom.returns_policy;
+  4.product.metafields.custom.size_guide;
+  5.product.metafields.custom.description;
 
 - **Metaobjects** :
-  1.product.metafields.custom.reviews_json
-  2.product.metafields.custom.customer_benefits
+  1.product.metafields.custom.reviews_json;
+  2.product.metafields.custom.customer_benefits;
 
 ### Additional Features
 
@@ -89,7 +57,6 @@ This theme leverages advanced Shopify features to enhance performance and flexib
 **Main Product Section**:
 
 **Functionality:**
-
 - **Product Title** – Displays the product name prominently.
 - **Price** – Shows main price and `compare_at_price` when applicable.
 - **Variant Selection (Size / Color)** – Customers can select variants.
@@ -116,13 +83,10 @@ This theme leverages advanced Shopify features to enhance performance and flexib
 
 - **Show variant image on color selection**  
   When a customer selects a color option, the corresponding product image is displayed automatically.
-
 - **Scroll gallery**  
   Implemented a smooth scrolling gallery for product images and media.
-
 - **Video support**  
   Supports adding videos to the media gallery. Videos automatically **pause and play** as the user scrolls through the gallery.
-
 - **Size guide Modal**  
   Fully configurable through a **metaobject - product.metafields.custom.size_guide**
 
@@ -131,22 +95,41 @@ This theme leverages advanced Shopify features to enhance performance and flexib
 ![Alt text](assets/all.png)
 
 <hr>
+
 ![Alt text](assets/customer_benefits.png)
+
 <hr>
+
 ![Alt text](assets/size_fit_new.png)
+
 <hr>
+
 ![Alt text](assets/product_notes.png)
+
 <hr>
+
 ![Alt text](assets/description.png)
+
 <hr>
+
 ![Alt text](assets/size_guide.png)
+
 <hr>
+
 ![Alt text](assets/return_policy.png)
+
 <hr>
+
 ![Alt text](assets/reviews_json.png)
+
 <hr>
+
 ![Alt text](assets/product_blocks.png)
+
 <hr>
+
 ![Alt text](assets/blocks.png)
+
 <hr>
+
 ![Alt text](assets/additional_blocks.png)
