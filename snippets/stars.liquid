@@ -10,12 +10,12 @@
 {% assign empty_stars = max_stars | minus: full_stars %}
 
 <div class="stars flex gap-0.5" role="img" aria-label="{{ stars }} out of 5 stars">
-  {% for star in (1..full_stars) %}
+  {%- for star in (1..full_stars) -%}
     {{ 'star-icon.svg' | inline_asset_content }}
-  {% endfor %}
+  {%- endfor -%}
 
-  {% for star in (1..empty_stars) %}
+  {%- for star in (1..empty_stars) -%}
     {{ 'outline-star-icon.svg' | inline_asset_content }}
-  {% endfor %}
+  {%- endfor -%}
   <span class="sr-only">{{-'reviews.out_of_stars' | t: count: stars -}}</span>
 </div>

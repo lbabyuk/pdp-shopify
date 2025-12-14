@@ -20,9 +20,9 @@
       </span>
     </button>
     <nav class="header__menu md:flex gap-8 hidden text-base" aria-label="Primary navigation">
-      {% for link in linklists['main-menu'].links %}
+      {%- for link in linklists['main-menu'].links -%}
         <a href="{{link.url}}" class="{% if link.active == true %}text-indigo-600{% endif %}">{{ link.title }}</a>
-      {% endfor %}
+      {%- endfor -%}
     </nav>
     <div class="header__cart relative">
       <a
@@ -30,7 +30,7 @@
         class="relative transition-colors duration-300 group overflow-visible!"
         aria-label="View cart with {{ cart.item_count }} items"
       >
-        {% if cart.item_count > 0 %}
+        {%- if cart.item_count > 0 -%}
           <div class="cart-count-bubble">
             <span class="sr-only">{{ cart.item_count }} items</span>
             <sup
@@ -46,7 +46,7 @@
               {{- cart.item_count -}}
             </sup>
           </div>
-        {% endif %}
+        {%- endif -%}
 
         <span class="transition-colors duration-300 group-hover:text-indigo-500" aria-hidden="true">
           {{ 'icon-cart.svg' | inline_asset_content }}

@@ -86,7 +86,7 @@
           {%- for block in section.blocks -%}
             {%- case block.type -%}
               {%- when 'description' -%}
-                {% if product.description != blank %}
+                {%- if product.description != blank -%}
                   <div class="product__description subtitle" {{ block.shopify_attributes }}>
                     {{ product.description }}
                   </div>
@@ -104,7 +104,7 @@
                   {{- product.selected_or_first_available_variant.sku -}}
                 </p>
             {%- endcase -%}
-          {% endfor %}
+          {%- endfor -%}
         </div>
 
         {%- for block in section.blocks -%}
@@ -112,7 +112,7 @@
             {%- when 'price' -%}
               {% render 'product-price', shopify_attributes: block.shopify_attributes, product: product %}
           {%- endcase -%}
-        {% endfor %}
+        {%- endfor -%}
 
         {%- for block in section.blocks -%}
           {%- case block.type -%}
@@ -141,13 +141,13 @@
                 {% assign metafield = product.metafields.custom[block.settings.metafield] %}
                 {% assign title = block.settings.title %}
 
-                {% if metafield and metafield.value != blank %}
+                {%- if metafield and metafield.value != blank -%}
                   {% render 'product-accordion',
                     metafield: metafield,
                     title: title,
                     shopify_attributes: block.shopify_attributes
                   %}
-                {% endif %}
+                {%- endif -%}
             {%- endcase -%}
           {%- endfor -%}
         </div>

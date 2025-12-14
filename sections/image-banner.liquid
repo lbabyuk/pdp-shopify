@@ -28,9 +28,9 @@
         class: 'w-full h-full block object-cover',
         fetchpriority: fetch_priority
     }}
-  {% else %}
+  {%- else -%}
     {{ 'hero-apparel-2' | placeholder_svg_tag: 'placeholder-svg' }}
-  {% endif %}
+  {%- endif -%}
   <div class="content__wrapper grid">
     <div
       class="image__banner--content"
@@ -61,11 +61,11 @@
                 {{ block.shopify_attributes }}
                 href="{{ section.settings.button_link }}"
                 class="w-fit {% if block.settings.button_style_secondary %} button--secondary{% else %} button--primary{% endif %}"
-                {% if block.settings.button_link == blank %}
+                {%- if block.settings.button_link == blank -%}
                   role="link" aria-disabled="true"
-                {% else %}
+                {%- else -%}
                   href="{{ block.settings.button_link }}"
-                {% endif %}
+                {%- endif -%}
               >
                 <span>{{- block.settings.button_label | escape -}}</span>
               </a>

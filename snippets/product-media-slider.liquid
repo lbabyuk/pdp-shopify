@@ -25,7 +25,7 @@
           role="button"
           tabindex="0"
         >
-          {% if media.media_type == 'video' %}
+          {%- if media.media_type == 'video' -%}
             {{
               media
               | video_tag: autoplay: true, loop: true, muted: true, controls: true, class: 'w-full h-full object-cover'
@@ -64,11 +64,11 @@
           role="group"
           aria-label="Image {{ forloop.index }} of {{ product.media.size }}"
           data-media-id="{{ media.id }}"
-          {% if media.id == selected_variant.featured_media.id %}
+          {%- if media.id == selected_variant.featured_media.id -%}
             data-initial-media="true"
-          {% endif %}
+          {%- endif -%}
         >
-          {% if media.media_type == 'video' %}
+          {%- if media.media_type == 'video' -%}
             {{
               media
               | video_tag: autoplay: true, loop: true, muted: true, controls: true, class: 'w-full h-full object-cover'
