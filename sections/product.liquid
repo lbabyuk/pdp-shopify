@@ -33,6 +33,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 pt-4 px-4 md:px-16 gap-6 lg:gap-15 justify-center">
       <div class="product__slider--container w-full md:sticky md:top-15 self-start">
         {%- if product.has_only_default_variant -%}
+          {%- assign alt_text = product.preview_image.alt | default: product.title -%}
           {{
             product.featured_image
             | image_url: width: 500
@@ -40,7 +41,7 @@
               loading: 'lazy',
               width: 500,
               height: 500,
-              alt: 'hello',
+              alt: alt_text,
               fetchpriority: 'high',
               class: 'object-cover'
           }}

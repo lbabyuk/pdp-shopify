@@ -46,7 +46,7 @@
         "order_status": "Order Status",
         "shipping_delivery": "Shipping and Delivery",
         "returns": "Returns",
-        "payment_options":"Payment Options"
+        "payment_options": "Payment Options"
       },
       "company": {
         "about_nike": "About Nike",
@@ -136,7 +136,10 @@
       "product_notes_title": "PRODUCT NOTES",
       "delivery_and_returns_title": "DELIVERY & RETURNS",
       "sku": "SKU",
-      "currently_unavailable": "Product is currently unavailable"
+      "currently_unavailable": "Product is currently unavailable",
+      "in_stock": "In Stock",
+      "out_of_stock": "Out Of Stock",
+      "running_out": "Running Out"
     }
   },
   "slider": {

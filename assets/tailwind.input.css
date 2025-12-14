@@ -308,13 +308,10 @@
     width: 140px;
   }
 
-  .size-guide td:nth-child(n + 2) {
-    @apply w-full;
-  }
-
   .size-guide table {
     border-collapse: collapse;
-    @apply subtitle text-center w-full border-collapse;
+    font-style: var(--body-medium);
+    @apply text-center w-full border-collapse;
   }
 
   .size-guide td {
@@ -323,24 +320,31 @@
 
   .size-guide td:nth-child(2),
   .size-guide td:nth-child(4) {
-    background: var(--color-gray-modal);
+    background-color: var(--color-gray-modal);
   }
 
   .size-guide {
-    background: var(--shadow);
+    background-color: var(--shadow);
     z-index: 9999;
     @apply justify-center items-center inset-0 fixed hidden;
   }
 
   .modal-inner {
-    @apply p-12 relative overflow-y-auto 
-    background: var(--color-white);
-    max-width: 644px;
-    min-width: 50%;
+    @apply py-8 px-4 relative overflow-y-auto;
+    background-color: var(--color-white);
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
     animation-name: animatetop;
     animation-duration: 0.4s;
+  }
+
+  .size-guide .close-modal {
+    @apply absolute top-2.5 right-2.5 cursor-pointer;
+  }
+
+  .size-guide td:first-child {
+    width: 100px;
+    @apply overflow-hidden whitespace-nowrap;
   }
 
   @-webkit-keyframes animatetop {
@@ -365,25 +369,6 @@
     }
   }
 
-  @media (max-width: 700px) {
-    .size-guide td:first-child {
-      width: 100px;
-      @apply overflow-hidden whitespace-nowrap;
-    }
-
-    .modal-inner {
-      @apply subtitle py-8 px-4 h-auto w-full;
-    }
-
-    .size-guide .close-modal {
-      @apply top-2.5 right-2.5;
-    }
-  }
-
-  .size-guide .close-modal {
-    @apply absolute top-4 right-4 cursor-pointer;
-  }
-
   @media (min-width: 768px) {
     .h1 {
       font-size: var(--h1-tablet);
@@ -392,6 +377,19 @@
     .h2 {
       font-size: var(--h2-tablet);
       line-height: var(--h2-tablet-line);
+    }
+
+    .modal-inner {
+      width: 644px;
+      @apply p-12;
+    }
+
+    .size-guide .close-modal {
+      @apply absolute top-4 right-4;
+    }
+    .size-guide td:first-child {
+      width: 140px;
+     
     }
   }
 

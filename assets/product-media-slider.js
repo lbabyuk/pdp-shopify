@@ -7,9 +7,39 @@ const keyActions = {
   prev: ["ArrowLeft", "ArrowUp"]
 };
 
+function observeVideoVisibility() {
+  const mainSlider = document.querySelector(".mainSwiper");
+  if (!mainSlider) return;
+
+  const videos = mainSlider.querySelectorAll("video");
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const video = entry.target;
+        if (!video) return;
+
+        if (entry.isIntersecting) {
+          const slide = video.closest(".swiper-slide");
+          const index = Array.from(mainSlider.querySelectorAll(".swiper-slide")).indexOf(slide);
+          if (index === mainSwiper.activeIndex) {
+            video.play().catch(() => {});
+          }
+        } else {
+          video.pause();
+        }
+      });
+    },
+    { threshold: 0.5 }
+  );
+
+  videos.forEach((video) => observer.observe(video));
+}
+
 function initializeSlider() {
   const mainEl = document.querySelector(".mainSwiper");
   const thumbEl = document.querySelector(".thumbSwiper");
+
   if (!mainEl || !thumbEl) return;
 
   if (thumbsSwiper) {
@@ -36,13 +66,32 @@ function initializeSlider() {
 
   mainSwiper = new Swiper(mainEl, {
     spaceBetween: 5,
+    slidesPerView: "auto",
     keyboard: { enabled: true },
-    thumbs: { swiper: thumbsSwiper }
+    thumbs: { swiper: thumbsSwiper },
+    touchStartPreventDefault: false
   });
 
   goToInitialMedia();
+
   enableThumbKeyboardNavigation();
   makeRadioGroupKeyboardNavigable();
+
+  mainSwiper.on("slideChange", handleVideoPlayback);
+  mainSwiper.on("slideChangeTransitionStart", handleVideoPlayback);
+  mainSwiper.on("slideChangeTransitionEnd", handleVideoPlayback);
+  thumbsSwiper.on("slideChangeTransitionStart", handleVideoPlayback);
+  thumbsSwiper.on("slideChangeTransitionEnd", handleVideoPlayback);
+
+  thumbsSwiper.on("touchStart", () => {
+    thumbsSwiper.slides.forEach((slide) => {
+      const video = slide.querySelector("video");
+      if (video) video.pause();
+    });
+  });
+
+  handleVideoPlayback();
+  observeVideoVisibility();
 }
 
 function goToInitialMedia() {
@@ -103,15 +152,35 @@ function makeRadioGroupKeyboardNavigable() {
 function enableThumbKeyboardNavigation() {
   if (!thumbsSwiper || !thumbsSwiper.slides) return;
   thumbsSwiper.slides.forEach((slide) => {
+    slide.addEventListener("click", () => {
+      const index = Array.from(thumbsSwiper.slides).indexOf(slide);
+      mainSwiper.slideTo(index);
+      handleVideoPlayback();
+    });
     slide.addEventListener("keydown", (event) => {
       if (["Enter", "Space", " "].includes(event.key)) {
         event.preventDefault();
         const index = Array.from(thumbsSwiper.slides).indexOf(slide);
-        thumbsSwiper.slideTo(index);
         mainSwiper.slideTo(index);
+        handleVideoPlayback();
         slide.click();
       }
     });
+  });
+}
+
+function handleVideoPlayback() {
+  if (!mainSwiper) return;
+
+  mainSwiper.slides.forEach((slide, index) => {
+    const video = slide.querySelector("video");
+    if (video) {
+      if (index === mainSwiper.activeIndex) {
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    }
   });
 }
 

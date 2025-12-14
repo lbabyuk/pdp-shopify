@@ -5,12 +5,6 @@
   {% render 'product-media-slider' %}
 {% endcomment %}
 
-{% assign variant = selected_variant %}
-
-<script>
-  console.log({{ variant | json }});
-</script>
-
 <div
   class="product_image gap-4 xl:gap-6"
   aria-label="{{ 'products.product.media_gallery_viewer' | t | escape }}"
@@ -31,7 +25,13 @@
           role="button"
           tabindex="0"
         >
-          {%- if media != blank -%}
+          {% if media.media_type == 'video' %}
+            {{
+              media
+              | video_tag: autoplay: true, loop: true, muted: true, controls: true, class: 'w-full h-full object-cover'
+            }}
+
+          {%- elsif media != blank -%}
             {%- assign alt_text = media.preview_image.alt | default: product.title -%}
             {{-
               media
@@ -68,9 +68,13 @@
             data-initial-media="true"
           {% endif %}
         >
-          {%- if media != blank -%}
+          {% if media.media_type == 'video' %}
+            {{
+              media
+              | video_tag: autoplay: true, loop: true, muted: true, controls: true, class: 'w-full h-full object-cover'
+            }}
+          {%- else -%}
             {% render 'tags', stars: stars %}
-
             {%- assign alt_text = media.preview_image.alt | default: product.title -%}
             {{-
               media
