@@ -139,7 +139,8 @@
       "currently_unavailable": "Product is currently unavailable",
       "in_stock": "In Stock",
       "out_of_stock": "Out Of Stock",
-      "running_out": "Running Out"
+      "running_out": "Running Out",
+      "benefits": "Customer benefits"
     }
   },
   "slider": {

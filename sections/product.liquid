@@ -3,9 +3,6 @@
   media, content, and add-to-cart form.
 {% endcomment %}
 
-{% assign product_notes = product.metafields.custom.product_notes %}
-{% assign returns_policy = product.metafields.custom.returns_policy %}
-{% assign size_fit = product.metafields.custom.size_fit_new %}
 {% assign description_text = product.metafields.custom.description %}
 {% assign size_guide = product.metafields.custom.product_size_guide %}
 
@@ -133,23 +130,27 @@
 
         {%- unless description_text.blank -%}
           <div class="product__description subtitle">
-            <p class="subtitle">{{ description_text | escape }}111</p>
+            <p class="subtitle">{{ description_text | escape }}</p>
           </div>
         {%- endunless -%}
 
-        {%- for block in section.blocks -%}
-          {%- case block.type -%}
-            {%- when 'collapsible_rows' -%}
-              <div class="product__accordion flex flex-col gap-2" {{ block.shopify_attributes }}>
-                {% assign size_and_fit = 'products.product.size_and_fit_title' | t %}
-                {% assign product_notes_title = 'products.product.product_notes_title' | t %}
-                {% assign delivery_and_returns_title = 'products.product.delivery_and_returns_title' | t %}
-                {% render 'collapsible-row', metafield: size_fit, title: size_and_fit %}
-                {% render 'collapsible-row', metafield: product_notes, title: product_notes_title %}
-                {% render 'collapsible-row', metafield: returns_policy, title: delivery_and_returns_title %}
-              </div>
-          {%- endcase -%}
-        {%- endfor -%}
+        <div class="flex flex-col gap-2">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'collapsible_rows' -%}
+                {% assign metafield = product.metafields.custom[block.settings.metafield] %}
+                {% assign title = block.settings.title %}
+
+                {% if metafield and metafield.value != blank %}
+                  {% render 'product-accordion',
+                    metafield: metafield,
+                    title: title,
+                    shopify_attributes: block.shopify_attributes
+                  %}
+                {% endif %}
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
       </div>
     </div>
     <div class="product__size--guide">
@@ -284,7 +285,16 @@
     {
       "type": "collapsible_rows",
       "name": "t:sections.main-product.blocks.collapsible_rows.name",
-      "limit": 1
+      "settings": [
+        { "type": "text", "id": "title", "default": "Title", "label": "Text" },
+        {
+          "type": "text",
+          "id": "metafield",
+          "label": "Metafield key",
+          "info": "Example: size_fit_new, product_notes, returns_policy"
+        }
+      ],
+      "limit": 5
     }
   ]
 }
