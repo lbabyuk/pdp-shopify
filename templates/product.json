@@ -20,12 +20,12 @@
           "type": "rating",
           "settings": {}
         },
-        "price_LLRhPd": {
-          "type": "price",
-          "settings": {}
-        },
         "description_KjG6fP": {
           "type": "description",
+          "settings": {}
+        },
+        "price_LLRhPd": {
+          "type": "price",
           "settings": {}
         },
         "variant_picker_HtNnhn": {
@@ -61,8 +61,8 @@
       "block_order": [
         "title_UmEdJA",
         "rating_LhnqGQ",
-        "price_LLRhPd",
         "description_KjG6fP",
+        "price_LLRhPd",
         "variant_picker_HtNnhn",
         "customer_benefits_BUPWmj",
         "collapsible_rows_eUHdmJ",
