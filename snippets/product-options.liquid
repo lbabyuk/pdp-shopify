@@ -10,26 +10,25 @@
     {%- assign option_name_normalized = option.name | downcase | strip -%}
 
     <div class="product__options flex flex-col gap-3">
-      <div class="flex justify-between">
-        <div class="product__options--name">
-          {%- if option_name_normalized contains 'size'
-            or option_name_normalized contains 'shoe size'
-            or option_name_normalized contains 'розмір'
-          -%}
-            <div class="product__options-name subtitle flex justify-between">
-              <span>{{ 'products.product.select_size' | t | escape }}</span>
-              <button
-                {{ shopify_attributes }}
-                type="button"
-                class="open-size-guide subtitle underline cursor-pointer"
-                aria-controls="sizeGuideModal"
-              >
-                {{- 'buttons.size_guide' | t -}}
-              </button>
-            </div>
-          {%- endif -%}
-        </div>
+      <div class="product__options--name">
+        {%- if option_name_normalized contains 'size'
+          or option_name_normalized contains 'shoe size'
+          or option_name_normalized contains 'розмір'
+        -%}
+          <div class="product__options-name subtitle flex justify-between items-center w-full">
+            <span class="">{{ 'products.product.select_size' | t | escape }}</span>
+            <button
+              {{ shopify_attributes }}
+              type="button"
+              class="open-size-guide subtitle underline cursor-pointer shrink-0"
+              aria-controls="sizeGuideModal"
+            >
+              {{- 'buttons.size_guide' | t -}}
+            </button>
+          </div>
+        {%- endif -%}
       </div>
+
       {%- if option_name_normalized contains 'color'
         or option_name_normalized contains 'colour'
         or option_name_normalized contains 'колір'
