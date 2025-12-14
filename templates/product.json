@@ -38,7 +38,10 @@
         },
         "collapsible_rows_eUHdmJ": {
           "type": "collapsible_rows",
-          "settings": {}
+          "settings": {
+            "title": "SIZE & FIT",
+            "metafield": "size_fit_new"
+          }
         }
       },
       "block_order": [
