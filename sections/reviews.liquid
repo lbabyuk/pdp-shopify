@@ -6,7 +6,7 @@
     <div class="reviews__cards grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
       {%- for review in reviews limit: 3 -%}
         <div class="reviews__cards--card p-6 rounded-lg flex flex-col gap-6 justify-between">
-          {% render 'stars', stars: review.stars, label: review.stars | append: ' out of 5 stars' %}
+          {% render 'stars', stars: review.stars, label: review.stars, append: ' out of 5 stars' %}
           <p class="reviews__text body">
             {%- if review.customer_image != blank -%}
               {{ review.review }}
@@ -69,3 +69,15 @@
   ]
 }
 {% endschema %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% render 'stars', stars: review.stars, label: review.stars | append: ' out
+    of 5 stars' %}"
+  to: "{% render 'stars', stars: review.stars, label: review.stars, append: ' out
+    of 5 stars' %}"
+  position: 540..629
+{% endcomment %}

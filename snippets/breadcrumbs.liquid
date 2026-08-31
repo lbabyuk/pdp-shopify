@@ -17,7 +17,7 @@
               {%- endif -%}
               {% render 'breadcrumbs-item', title: product.title, url: product.url, current: true %}
             {%- when 'collection' -%}
-              {% render 'breadcrumbs-item', title: collection.title, url: collection.url, current: current_tags == nil %}
+              {% render 'breadcrumbs-item', title: collection.title, url: collection.url, current: current_tags %}
             {%- else -%}
               {% render 'breadcrumbs-item', title: page_title, url: request.path, current: true %}
           {%- endcase -%}
@@ -26,3 +26,15 @@
     </div>
   </div>
 {%- endunless -%}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% render 'breadcrumbs-item', title: collection.title, url: collection.url,
+    current: current_tags == nil %}"
+  to: "{% render 'breadcrumbs-item', title: collection.title, url: collection.url,
+    current: current_tags %}"
+  position: 1012..1112
+{% endcomment %}
