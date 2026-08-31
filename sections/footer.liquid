@@ -1,41 +1,186 @@
-<footer>
-  <div class="footer__copyright">
-    &copy;
-    {{ 'now' | date: '%Y' }}
-    {{ shop.name | link_to: routes.root_url }}, {{ powered_by_link }}
-  </div>
+<footer class="footer full-width">
+  <div class="footer__container flex flex-col gap-12 pt-15 pb-6 px-4 md:pt-15 md:px-15">
+    <div class="footer__links hidden md:flex justify-between ">
+      <div class="footer__links--list flex flex-col gap-4">
+        <p>{{ 'footer.titles.resources' | t }}</p>
+        <ul class="flex flex-col gap-3 text-sm">
+          <li>
+            <a href="#">{{ 'footer.footer_links.resources.find_store' | t }}</a>
+          </li>
+          <li>
+            <a href="#">{{ 'footer.footer_links.resources.nike_journal' | t }}</a>
+          </li>
+          <li>
+            <a href="#">{{ 'footer.footer_links.resources.become_member' | t }}</a>
+          </li>
+          <li>
+            <a href="#">{{ 'footer.footer_links.resources.feedback' | t }}</a>
+          </li>
+          <li>
+            <a href="#">{{ 'footer.footer_links.resources.promo_codes' | t }}</a>
+          </li>
+        </ul>
+      </div>
+      <div class="footer__links--list flex flex-col gap-4">
+        <p>{{ 'footer.titles.help' | t }}</p>
+        <ul class="flex flex-col gap-3 text-sm">
+          <li>
+            <a href="#">{{ 'footer.footer_links.help.get_help' | t }}</a>
+          </li>
+          <li>
+            <a href="#">{{ 'footer.footer_links.help.order_status' | t }}</a>
+          </li>
+          <li>
+            <a href="#">{{ 'footer.footer_links.help.shipping_delivery' | t }}</a>
+          </li>
+          <li>
+            <a href="#">{{ 'footer.footer_links.help.returns' | t }}</a>
+          </li>
+          <li>
+            <a href="#">{{ 'footer.footer_links.help.payment_options' | t }}</a>
+          </li>
+        </ul>
+      </div>
+      <div class="footer__links--list flex flex-col gap-4">
+        <p>{{ 'footer.titles.company' | t }}</p>
+        <ul class="flex flex-col gap-3 text-sm">
+          <li>
+            <a href="#">{{ 'footer.footer_links.company.about_nike' | t }}</a>
+          </li>
+          <li>
+            <a href="#">{{ 'footer.footer_links.company.news' | t }}</a>
+          </li>
+          <li>
+            <a href="#">{{ 'footer.footer_links.company.careers' | t }}</a>
+          </li>
+          <li>
+            <a href="#">{{ 'footer.footer_links.company.investors' | t }}</a>
+          </li>
+          <li>
+            <a href="#">{{ 'footer.footer_links.company.sustainability' | t }}</a>
+          </li>
+        </ul>
+      </div>
 
-  <div class="footer__links">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
-  </div>
+      <div class="footer__links--list flex flex-col gap-4">
+        <p>{{ 'footer.titles.menu' | t }}</p>
+        <ul class="flex flex-col gap-3 text-sm">
+          <li>
+            <a href="#">{{ 'footer.footer_links.menu.new_featured' | t }}</a>
+          </li>
+          <li>
+            <a href="#">{{ 'footer.footer_links.menu.men' | t }}</a>
+          </li>
+          <li>
+            <a href="#">{{ 'footer.footer_links.menu.women' | t }}</a>
+          </li>
+          <li>
+            <a href="#">{{ 'footer.footer_links.menu.kids' | t }}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
 
-  <div class="footer__payment">
-    {% if section.settings.show_payment_icons %}
-      {% for type in shop.enabled_payment_types %}
-        {{ type | payment_type_svg_tag }}
-      {% endfor %}
-    {% endif %}
+    <div class="footer__links md:hidden flex flex-col justify-between">
+      <details class="footer__links--list flex flex-col py-4">
+        <summary>{{ 'footer.titles.resources' | t }}</summary>
+        <ul class="flex flex-col gap-3 text-sm pt-4">
+          <li>
+            <a href="#">{{ 'footer.footer_links.resources.find_store' | t }}</a>
+          </li>
+          <li>
+            <a href="#">{{ 'footer.footer_links.resources.nike_journal' | t }}</a>
+          </li>
+          <li>
+            <a href="#">{{ 'footer.footer_links.resources.become_member' | t }}</a>
+          </li>
+          <li>
+            <a href="#">{{ 'footer.footer_links.resources.feedback' | t }}</a>
+          </li>
+          <li>
+            <a href="#">{{ 'footer.footer_links.resources.promo_codes' | t }}</a>
+          </li>
+        </ul>
+      </details>
+      <details class="footer__links--list flex flex-col py-4">
+        <summary>{{ 'footer.titles.help' | t }}</summary>
+        <ul class="flex flex-col gap-3 text-sm pt-4">
+          <li>
+            <a href="#">{{ 'footer.footer_links.help.get_help' | t }}</a>
+          </li>
+          <li>
+            <a href="#">{{ 'footer.footer_links.help.order_status' | t }}</a>
+          </li>
+          <li>
+            <a href="#">{{ 'footer.footer_links.help.shipping_delivery' | t }}</a>
+          </li>
+          <li>
+            <a href="#">{{ 'footer.footer_links.help.returns' | t }}</a>
+          </li>
+          <li>
+            <a href="#">{{ 'footer.footer_links.help.payment_options' | t }}</a>
+          </li>
+        </ul>
+      </details>
+      <details class="footer__links--list flex flex-col py-4">
+        <summary>{{ 'footer.titles.company' | t }}</summary>
+        <ul class="flex flex-col gap-3 text-sm pt-4">
+          <li>
+            <a href="#">{{ 'footer.footer_links.company.about_nike' | t }}</a>
+          </li>
+          <li>
+            <a href="#">{{ 'footer.footer_links.company.news' | t }}</a>
+          </li>
+          <li>
+            <a href="#">{{ 'footer.footer_links.company.careers' | t }}</a>
+          </li>
+          <li>
+            <a href="#">{{ 'footer.footer_links.company.investors' | t }}</a>
+          </li>
+          <li>
+            <a href="#">{{ 'footer.footer_links.company.sustainability' | t }}</a>
+          </li>
+        </ul>
+      </details>
+
+      <details class="footer__links--list flex flex-col py-4">
+        <summary>{{ 'footer.titles.menu' | t }}</summary>
+        <ul class="flex flex-col gap-3 text-sm pt-4">
+          <li>
+            <a href="#">{{ 'footer.footer_links.menu.new_featured' | t }}</a>
+          </li>
+          <li>
+            <a href="#">{{ 'footer.footer_links.menu.men' | t }}</a>
+          </li>
+          <li>
+            <a href="#">{{ 'footer.footer_links.menu.women' | t }}</a>
+          </li>
+          <li>
+            <a href="#">{{ 'footer.footer_links.menu.kids' | t }}</a>
+          </li>
+        </ul>
+      </details>
+    </div>
+    <div class="footer__info">
+      <ul class="footer__list flex flex-col md:flex-row gap-3 md:gap-8 text-sm">
+        <li>
+          <a class="footer__list--text" href="#"
+            >&copy; {{ 'now' | date: '%Y' }}
+            {{ 'footer.company_name' | t | escape -}}
+          </a>
+        </li>
+        <li>
+          <a class="footer__list--link" href="#" aria-label="Terms of Use">{{ 'footer.term_of_use' | t | escape }}</a>
+        </li>
+        <li>
+          <a class="footer__list--link" href="#" aria-label="{{'footer.privacy_cookie_policy' | t }}">
+            {{- 'footer.privacy_cookie_policy' | t -}}
+          </a>
+        </li>
+      </ul>
+    </div>
   </div>
 </footer>
-
-{% stylesheet %}
-  footer {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 2rem;
-  }
-  footer a {
-    text-decoration: none;
-    color: var(--color-foreground);
-  }
-  footer .footer__links,
-  footer .footer__payment {
-    display: flex;
-    gap: 1rem;
-  }
-{% endstylesheet %}
 
 {% schema %}
 {
